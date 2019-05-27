@@ -1,4 +1,4 @@
-dj-database-url==0.4.2
+dj-database-url
 python-dotenv==0.10.2
 psycopg2
 requests
