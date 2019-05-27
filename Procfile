@@ -1,1 +1,1 @@
-'web: gunicorn grupo1-llevame.wsgi --log-file -' 
+'web gunicorn grupo1-llevame.wsgi:app' 
