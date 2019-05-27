@@ -1,16 +1,99 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
+  <table style="width:100%">
+    <tr>
+      <td>Hi {{ user.username }}!</th>
+      <td align="right"><a href="{% url 'logout' %}">logout</a></td>
+    </tr>
+  </table>
+  <br>
   {% if user.ubicacion %}
-    {{ user.ubicacion.lat }}
-    <p><a href="{% url 'newubicacion' user.id %}">Modificar</a></p>
+    <table style="width:100%">
+      <tr>
+        <td>Direccion: {{ user.ubicacion.direccion }}</td>
+        <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
+      <tr>
+    </table>
+    <br>
   {% else %}
-    Chao
+    <p><a href="{% url 'newubicacion' user.id %}">Agregar Ubicacion</a></p>
+    <br>
+  {% endif %}
+  <table style="width:100%">
+    <tr>
+  {% if not user.auto %}
+    <td><a href="{% url 'newauto' user.id %}">Guardar Auto</a><td>
+  {% else %}
+    <td>{{ user.auto.modelo }}</td>
+    {% if not user.conductor %}
+      <td><a href="{% url 'conductor' user.id %}">Manejo Hoy</a></td>
+    {% else %}
+      <td><a href="{% url 'conductor' user.id %}">No manejo Hoy</a></td>
+    {% endif %}
+    <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
+  {% endif %}
+    </tr>
+  <table>
+  <br>
+  {% if user.ubicacion %}
+    {% if not user.tengo_ida and not user.conductor %}
+      <h4>Conductores disponibles:</h4>
+      <table style="width:100%">
+        <tr>
+          <th>Nombre</th>
+          <th>Asientos Disponibles</th>
+          <td align="right"><b>Postular</b></td> 
+        </tr>
+      
+        {% for car in user.conductores_posibles %}
+        <tr>
+          <td>{{ car.username }}</td>
+          <td>{{ car.auto.tengo_capacidad }}</td>
+          <td align="right"><a href="{% url 'newllevame' car.id %}">Llevame</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% elif not user.conductor and user.id_conductor != 'None' %}
+      <h4>Me lleva: </h4>
+      <table style="width:100%">
+        <tr>
+          <th>Nombre</th>
+          <th>Asientos Disponibles</th>
+          <td align="right"><b>Bajarse del auto</b></th> 
+        </tr>
+        <tr>
+          <td>{{ user.me_lleva.username }}</td> 
+          <td>{{ user.me_lleva.auto.tengo_capacidad }}</td> 
+          <td align="right"><a href="{% url 'newllevame' user.me_lleva.id %}">no me Lleves</a></td>
+        </tr>
+      </table>
+    {% else %}
+      <h4> Usuarios que llevo: </h4>
+      {% if user.auto.pasajeros.user.all %}
+      <table style="width:100%">
+        <tr>
+          <th>Nombre</th>
+          <th>email</th>
+          <td align="right"><b>Bajar</b><td>
+        </tr>
+        {% for llevo in user.auto.pasajeros.user.all %}
+        <tr>
+          <td>{{ llevo.username }}</td>
+          <td>{{ llevo.email }}</td>
+          <td align="right"><a href="{% url 'nollevar' llevo.id %}">Bajar de mi auto</a>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+        <p>Todavia nadie se suma a tu auto </p>
+      {% endif %}
+    {% endif %}
+  {% else %}
     <p><a href="{% url 'newubicacion' user.id %}">Agregar Ubicacion</a></p>
   {% endif %}
 {% else %}

@@ -29,17 +29,24 @@
       color: white;
     }
 
+    links {
+      float: left;
+      width: 20%;
+      background: white;
+      padding: 0px;
+      font-size: 15px;
+    }
     /* Create two columns/boxes that floats next to each other */
     nav {
-      float: left;
-      width: 31%;
+      float: right;
+      width: 30%;
       background: white;
       padding: 20px;
     }
     article {
       float: left;
       padding: 20px;
-      width: 69%;
+      width: 50%;
       background-color: white;
     }
     /* Style the list inside the menu */
@@ -71,16 +78,25 @@
   </style>
   </head>
   <body>
-    <br>
-    <div>
-    {% if user.is_authenticated %}
-      {% include "users/header.html" %}
-    {% endif %}
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-8">
-          {% block content %}
-          {% endblock %}
+          {% load static %}
+          <br>
+            <article>
+              <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
+            </article>
+            
+            <nav>
+              <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
+            </nav>
+            <footer>
+              <br>
+              <br>
+              <br>
+              <hr style="height:44px" color="white" margin-top="10">
+              <hr style="height:7px" color="5d4b1c" margin-top="10">
+            </footer>
         </div>
       </div>
     </div>

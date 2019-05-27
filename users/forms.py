@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser, Ubicacion
+from .models import CustomUser, Ubicacion, Auto
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -17,4 +17,10 @@ class CustomUserChangeForm(UserChangeForm):
 class UbicacionForm(forms.ModelForm):
     class Meta:
         model = Ubicacion
-        fields = ['lat', 'lng'] 
+        fields = ['direccion'] 
+
+class NewAutoForm(forms.ModelForm):
+
+    class Meta(UserCreationForm):
+        model = Auto
+        fields = ('modelo', 'color', 'capacidad')
