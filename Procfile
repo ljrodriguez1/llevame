@@ -1,1 +1,1 @@
-'web gunicorn grupo1-llevame.wsgi:myapp' 
+'web gunicorn myapp.wsgi' 
