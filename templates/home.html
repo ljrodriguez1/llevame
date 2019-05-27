@@ -5,37 +5,22 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  <table style="width:100%">
-    <tr>
-      <td>Hi {{ user.username }}!</th>
-      <td align="right"><a href="{% url 'logout' %}">logout</a></td>
-    </tr>
-  </table>
-  <br>
   {% if user.ubicacion %}
     <table style="width:100%">
       <tr>
-        <td>Direccion: {{ user.ubicacion.direccion }}</td>
-        <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
+        <td>Mi direccion: {{ user.ubicacion.direccion }}</td>
       <tr>
     </table>
-    <br>
-  {% else %}
-    <p><a href="{% url 'newubicacion' user.id %}">Agregar Ubicacion</a></p>
-    <br>
   {% endif %}
-  <table style="width:100%">
+  <table style="width:50%">
     <tr>
-  {% if not user.auto %}
-    <td><a href="{% url 'newauto' user.id %}">Guardar Auto</a><td>
-  {% else %}
-    <td>{{ user.auto.modelo }}</td>
+  {% if user.auto %}
+    <td>Mi auto: {{ user.auto.modelo }}, color: {{user.auto.color}} </td>
     {% if not user.conductor %}
-      <td><a href="{% url 'conductor' user.id %}">Manejo Hoy</a></td>
+      <td align="left"><a href="{% url 'conductor' user.id %}">Manejo Hoy</a></td>
     {% else %}
-      <td><a href="{% url 'conductor' user.id %}">No manejo Hoy</a></td>
+      <td align="left"><a href="{% url 'conductor' user.id %}">No manejo Hoy</a></td>
     {% endif %}
-    <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
   {% endif %}
     </tr>
   <table>

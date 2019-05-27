@@ -11,63 +11,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    * {
-      box-sizing: border-box;
+    .wrapper {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: auto auto auto;
     }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
+    .one {
+        grid-column-start: 1;
+        grid-column-end: 3;
     }
-
-    /* Style the header */
-    header {
-      background-color: white;
-      padding: 30px;
-      text-align: center;
-      font-size: 35px;
-      width: 100%;
-      color: white;
+    .two { 
+        grid-column-start: 3;
+        grid-column-end: 4;
     }
-
-    links {
-      float: left;
-      width: 20%;
-      background: white;
-      padding: 0px;
-      font-size: 15px;
+    .three {
+        grid-column-start: 4;
+        grid-column-end: 5;
     }
-    /* Create two columns/boxes that floats next to each other */
-    nav {
-      float: right;
-      width: 30%;
-      background: white;
-      padding: 20px;
+    .four {
+        grid-column-start: 1;
+        grid-column-end: 5;
     }
-    article {
-      float: left;
-      padding: 20px;
-      width: 50%;
-      background-color: white;
-    }
-    /* Style the list inside the menu */
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    /* Clear floats after the columns */
-    section:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-
-    /* Style the footer */
-    footer {
-      padding: 10px;
-      text-align: center;
-    }
-
     /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
     @media (max-width: 1050px) {
       nav, article {
@@ -83,20 +47,34 @@
         <div class="col-8">
           {% load static %}
           <br>
-            <article>
-              <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
-            </article>
-            
-            <nav>
-              <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
-            </nav>
-            <footer>
-              <br>
-              <br>
-              <br>
-              <hr style="height:44px" color="white" margin-top="10">
-              <hr style="height:7px" color="5d4b1c" margin-top="10">
-            </footer>
+            <div class="wrapper">
+                <div class="one">
+                    <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
+                </div>
+                <div class="two">
+                    <br>
+                    <table>
+                        <tr>
+                            <td align="right">{{user.username}}</td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a href="{% url 'logout' %}">logout</a></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="three">
+                    <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
+                </div>
+                <div class="four">
+                    <hr style="height:7px" color="5d4b1c" margin-top="10">
+                </div>
+            </div>
         </div>
       </div>
     </div>
