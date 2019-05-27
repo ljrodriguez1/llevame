@@ -1,5 +1,5 @@
 psycopg2
-request
+requests
 django
 django-heroku
 django-crispy_forms 
