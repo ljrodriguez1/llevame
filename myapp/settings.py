@@ -31,7 +31,7 @@ SECRET_KEY = '67ukarod#!$tukoch0q)9(ckbr#zilxf0@budz(^r+8uy3d%za'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['grupo1-llevame.herokuapp.com']
 
 
 # Application definition
