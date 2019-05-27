@@ -136,3 +136,5 @@ LOGOUT_REDIRECT_URL = 'home'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 django_heroku.settings(locals())
+
+del DATABASES['default']['OPTIONS']['sslmode']
