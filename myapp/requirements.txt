@@ -1,0 +1,6 @@
+psycopg2
+request
+math
+os
+django
+django-heroku
