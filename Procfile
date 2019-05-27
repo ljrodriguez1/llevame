@@ -1,1 +1,2 @@
-'web gunicorn myapp.wsgi:app' 
+    
+web: gunicorn {{ myapp }}.wsgi
