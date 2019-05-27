@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config()
-
+DATABASES = {'default': {}}
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -137,4 +137,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 django_heroku.settings(locals())
 
-del DATABASES['default']['OPTIONS']['sslmode']
