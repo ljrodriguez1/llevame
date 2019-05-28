@@ -70,8 +70,7 @@
     }
   </style>
   </head>
-  <body>
-    <br>
+  {% load static %}
     <div>
     {% if user.is_authenticated %}
       {% include "users/header.html" %}

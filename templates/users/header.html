@@ -1,3 +1,4 @@
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -11,72 +12,109 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+    .three img {
+        max-height: 120px;
+        width: auto;
+    }
+
     .wrapper {
         display: grid;
-        grid-gap: 10px;
-        grid-template-columns: auto auto auto;
+        grid-gap: 0px;
+        grid-template-columns: 20% 15% 15% 15% 15% 20%;
+        grid-template-rows: auto 350%;
+        margin: 0 auto;
+        width: 100%; 
     }
     .one {
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
-    .two { 
-        grid-column-start: 3;
+        grid-column-start: 2;
         grid-column-end: 4;
     }
-    .three {
+    .two  
         grid-column-start: 4;
         grid-column-end: 5;
     }
-    .four {
-        grid-column-start: 1;
-        grid-column-end: 5;
+    .three {
+        grid-column-start: 5;
+        grid-column-end: 6;
     }
+    .four {
+        grid-column-start: 2;
+        grid-column-end: 6;
+    }
+    .links {
+        margin-right: 10px;
+        margin-left: auto;
+    }
+
+    .left {
+        background-image: url({% static "users/left.png" %});
+        background-size: 100%;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+
+    .right {
+        background-image: url({% static "users/right.png" %});
+        background-size: 100%;
+        grid-column-start: 6;
+        grid-column-end: 7;
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+
     /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
     @media (max-width: 1050px) {
-      nav, article {
-        width: 100%;
-        height: auto;
+      .one, .three {
+        grid-column-start: 1;
+        grid-column-end: 7;
+        margin: 0 auto;
+      }
+      .wrapper {
+          grid-template-columns: auto;
+          width: 80%;
+          grid-template-rows: auto;
+      }
+      .left, .right, .four, .links {
+          display: none;
       }
     }
   </style>
   </head>
-  <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-8">
-          {% load static %}
-          <br>
-            <div class="wrapper">
-                <div class="one">
-                    <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
-                </div>
-                <div class="two">
-                    <br>
-                    <table>
-                        <tr>
-                            <td align="right">{{user.username}}</td>
-                        </tr>
-                        <tr>
-                            <td align="right"><a href="{% url 'logout' %}">logout</a></td>
-                        </tr>
-                        <tr>
-                            <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
-                        </tr>
-                        <tr>
-                            <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="three">
-                    <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
-                </div>
-                <div class="four">
-                    <hr style="height:7px" color="5d4b1c" margin-top="10">
-                </div>
-            </div>
+  <body background-image="{% static "users/background.png" %}">
+    <br>
+    <div class="wrapper">
+        <div class="one">
+            <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
         </div>
-      </div>
+        <div class="two">
+            <br>
+            <table class="links">
+                <tr>
+                    <td align="right">{{user.username}}</td>
+                </tr>
+                <tr>
+                    <td align="right"><a href="{% url 'logout' %}">logout</a></td>
+                </tr>
+                <tr>
+                    <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
+                </tr>
+                <tr>
+                    <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="three">
+            <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
+        </div>
+        <div class="four">
+            <hr style="height:7px" color="5d4b1c" margin-top="10">
+        </div>
+        <div class="left">
+        </div>
+        <div class="right">
+        </div>
     </div>
   </body>
 </html>

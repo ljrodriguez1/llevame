@@ -39,7 +39,7 @@
         <tr>
           <td>{{ car.username }}</td>
           <td>{{ car.auto.tengo_capacidad }}</td>
-          <td align="right"><a href="{% url 'newllevame' car.id %}">Llevame</a></td>
+          <td align="right"><a href="{% url 'newllevame' car.id %}"><img src="{% static "users/llevame.png" %}" width="50px"></td></a>
         </tr>
         {% endfor %}
       </table>
