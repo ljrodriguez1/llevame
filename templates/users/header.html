@@ -45,6 +45,12 @@
         margin-right: 10px;
         margin-left: auto;
     }
+    .links-celular {
+        margin: 0 auto;
+        display: none;
+        grid-column-start: 1;
+        grid-column-end: 7;
+    }
 
     .left {
         background-image: url({% static "users/left.png" %});
@@ -73,11 +79,15 @@
       }
       .wrapper {
           grid-template-columns: auto;
-          width: 80%;
+          width: 90%;
           grid-template-rows: auto;
       }
       .left, .right, .four, .links {
           display: none;
+      }
+      .links-celular {
+          display: inline;
+          text-align: center;
       }
     }
   </style>
@@ -104,6 +114,10 @@
                     <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
                 </tr>
             </table>
+        </div>
+        <div class="links-celular">
+            <p><a href="{% url 'logout' %}">logout</a> | <a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a> 
+            | <a href="{% url 'newauto' user.id %}">Cambiar Auto</a></p>
         </div>
         <div class="three">
             <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
