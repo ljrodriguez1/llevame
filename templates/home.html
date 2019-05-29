@@ -1,89 +1,96 @@
-{% extends 'base.html' %}
+{% extends 'users/header.html' %}
 {% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  {% if user.ubicacion %}
-    <table style="width:100%">
-      <tr>
-        <td>Mi direccion: {{ user.ubicacion.direccion }}</td>
-      <tr>
-    </table>
-  {% endif %}
-  <table style="width:50%">
-    <tr>
-  {% if user.auto %}
-    <td>Mi auto: {{ user.auto.modelo }}, color: {{user.auto.color}} </td>
-    {% if not user.conductor %}
-      <td align="left"><a href="{% url 'conductor' user.id %}">Manejo Hoy</a></td>
-    {% else %}
-      <td align="left"><a href="{% url 'conductor' user.id %}">No manejo Hoy</a></td>
-    {% endif %}
-  {% endif %}
-    </tr>
-  <table>
-  <br>
-  {% if user.ubicacion %}
-    {% if not user.tengo_ida and not user.conductor %}
-      <h4>Conductores disponibles:</h4>
-      <table style="width:100%">
-        <tr>
-          <th>Nombre</th>
-          <th>Asientos Disponibles</th>
-          <td align="right"><b>Postular</b></td> 
-        </tr>
-      
-        {% for car in user.conductores_posibles %}
-        <tr>
-          <td>{{ car.username }}</td>
-          <td>{{ car.auto.tengo_capacidad }}</td>
-          <td align="right"><a href="{% url 'newllevame' car.id %}"><img src="{% static "users/llevame.png" %}" width="50px"></td></a>
-        </tr>
-        {% endfor %}
-      </table>
-    {% elif not user.conductor and user.id_conductor != 'None' %}
-      <h4>Me lleva: </h4>
-      <table style="width:100%">
-        <tr>
-          <th>Nombre</th>
-          <th>Asientos Disponibles</th>
-          <td align="right"><b>Bajarse del auto</b></th> 
-        </tr>
-        <tr>
-          <td>{{ user.me_lleva.username }}</td> 
-          <td>{{ user.me_lleva.auto.tengo_capacidad }}</td> 
-          <td align="right"><a href="{% url 'newllevame' user.me_lleva.id %}">no me Lleves</a></td>
-        </tr>
-      </table>
-    {% else %}
-      <h4> Usuarios que llevo: </h4>
-      {% if user.auto.pasajeros.user.all %}
-      <table style="width:100%">
-        <tr>
-          <th>Nombre</th>
-          <th>email</th>
-          <td align="right"><b>Bajar</b><td>
-        </tr>
-        {% for llevo in user.auto.pasajeros.user.all %}
-        <tr>
-          <td>{{ llevo.username }}</td>
-          <td>{{ llevo.email }}</td>
-          <td align="right"><a href="{% url 'nollevar' llevo.id %}">Bajar de mi auto</a>
-        </tr>
-        {% endfor %}
-      </table>
-      {% else %}
-        <p>Todavia nadie se suma a tu auto </p>
+<div class="three">
+  {% if user.is_authenticated %}
+    <div class="wrapper2">
+      {% if user.ubicacion %}
+        <div class="four">
+          Mi direccion: {{ user.ubicacion.direccion }}<a href="{% url 'newubicacion' user.id %}" class="button2">Editar Ubicacion</a><br>
+          {% if not user.auto %}
+          <div class="five">
+          </div>
+          <p>Para postular a conductor debe agregar su auto <a href="{% url 'newauto' user.id %}" class="button2">Agregar Auto</a><br>
+          {% else %}
+            <p>Mi auto: {{ user.auto.modelo }}, color: {{user.auto.color}}<a href="{% url 'newauto' user.id %}" class="button2">Editar Auto</a><br>
+        </div>
+          <div class="five">
+            {% if not user.conductor %}
+              <p><a href="{% url 'conductor' user.id %}" class="button">Manejo Hoy</a></p>
+            {% else %}
+              <p><a href="{% url 'conductor' user.id %}" class="button">No Manejo Hoy</a></p>
+            {% endif %}
+          </div>
+          {% endif %}
+        {% else %}
+          <p>Para pedir un viaje debe agregar su ubicacion <a href="{% url 'newubicacion' user.id %}" class="button">Agregar Ubicacion</a>
       {% endif %}
-    {% endif %}
+      <div class="six">
+        {% if user.ubicacion %}
+          {% if not user.tengo_ida and not user.conductor %}
+            <h4>Conductores disponibles:</h4>
+            <table style="width:100%">
+              <tr>
+                <th>Nombre</th>
+                <th>Asientos Disponibles</th>
+                <td align="right"><b>Postular</b></td> 
+              </tr>
+            
+              {% for car in user.conductores_posibles %}
+              <tr>
+                <td>{{ car.username }}</td>
+                <td>{{ car.auto.tengo_capacidad }}</td>
+                <td align="right"><a href="{% url 'newllevame' car.id %}"><img src="{% static "users/llevame.png" %}" width="50px"></td></a>
+              </tr>
+              {% endfor %}
+            </table>
+          {% elif not user.conductor and user.id_conductor != 'None' %}
+            <h4>Me lleva: </h4>
+            <table style="width:100%">
+              <tr>
+                <th>Nombre</th>
+                <th>Asientos Disponibles</th>
+                <td align="right"><b>Bajarse del auto</b></th> 
+              </tr>
+              <tr>
+                <td>{{ user.me_lleva.username }}</td> 
+                <td>{{ user.me_lleva.auto.tengo_capacidad }}</td> 
+                <td align="right"><a href="{% url 'newllevame' user.me_lleva.id %}">no me Lleves</a></td>
+              </tr>
+            </table>
+          {% else %}
+            <h4> Usuarios que llevo: </h4>
+            {% if user.auto.pasajeros.user.all %}
+            <table style="width:100%">
+              <tr>
+                <th>Nombre</th>
+                <th>email</th>
+                <td align="right"><b>Bajar</b><td>
+              </tr>
+              {% for llevo in user.auto.pasajeros.user.all %}
+              <tr>
+                <td>{{ llevo.username }}</td>
+                <td>{{ llevo.email }}</td>
+                <td align="right"><a href="{% url 'nollevar' llevo.id %}">Bajar de mi auto</a>
+              </tr>
+              {% endfor %}
+            </table>
+            {% else %}
+              <p>Todavia nadie se suma a tu auto </p>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
   {% else %}
-    <p><a href="{% url 'newubicacion' user.id %}">Agregar Ubicacion</a></p>
+    <div class="login">
+      <p>You are not logged in</p>
+      <a href="{% url 'login' %}">login</a> |
+      <a href="{% url 'signup' %}">signup</a>
+    </div>
   {% endif %}
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a> |
-  <a href="{% url 'signup' %}">signup</a>
-{% endif %}
+</div>
 {% endblock %}

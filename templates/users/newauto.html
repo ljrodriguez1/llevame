@@ -1,13 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'users/header.html' %}
 {% load crispy_forms_tags %}
 
 {% block title %}Nuevo Auto{% endblock %}
 
 {% block content %}
-<h2>Nuevo Auto</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button type="submit">Submit</button>
-</form>
+<div class="three"
+  <h2>Nuevo Auto</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Submit</button>
+  </form>
+<div>
 {% endblock %}

@@ -12,123 +12,142 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-    .three img {
-        max-height: 120px;
-        width: auto;
+    .button1{
+        border: 5px solid #EF5A5A;
+        text-align: center;
+        vertical-align: middle;
+        width: 20%; 
+    }
+    .button {
+        background-color: #EF5A5A;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        margin: 10px 10px;
+        cursor: pointer;
+    }
+    .button2 {
+        background-color: #EF5A5A;
+        border: none;
+        color: white;
+        padding: 5px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    .login{
+        border: 5px solid #EF5A5A;
+        text-align: center;
+        vertical-align: middle;
+        width: 20%; 
+        margin: 10px auto;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+    .four {
+        margin: 0px auto;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .five {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+    .six {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+    .three {
+        width: 80%; 
+        margin: 0 auto;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 4;
     }
 
     .wrapper {
         display: grid;
         grid-gap: 0px;
-        grid-template-columns: 20% 15% 15% 15% 15% 20%;
-        grid-template-rows: auto 350%;
+        grid-template-columns: auto auto 22%;
+        grid-template-rows: 31% 29% 40%;
+        margin: 0 auto;
+        width: 100%; 
+    }
+    .wrapper2{
+        background-color: rgba(255, 255, 255, 0.9);
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: 40% 40% 20%;
+        grid-template-rows: 30% 70%;
         margin: 0 auto;
         width: 100%; 
     }
     .one {
-        grid-column-start: 2;
+        background-image: url({% static "users/header.png" %});
+        background-size: 100%;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        background-repeat: no-repeat;
+    }
+    .two {
+        grid-column-start: 3;
         grid-column-end: 4;
-    }
-    .two  
-        grid-column-start: 4;
-        grid-column-end: 5;
-    }
-    .three {
-        grid-column-start: 5;
-        grid-column-end: 6;
-    }
-    .four {
-        grid-column-start: 2;
-        grid-column-end: 6;
-    }
-    .links {
-        margin-right: 10px;
-        margin-left: auto;
-    }
-    .links-celular {
-        margin: 0 auto;
-        display: none;
-        grid-column-start: 1;
-        grid-column-end: 7;
-    }
-
-    .left {
-        background-image: url({% static "users/left.png" %});
-        background-size: 100%;
-        grid-column-start: 1;
-        grid-column-end: 2;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 4;
+    }
+    .right1 {
+        float: right;
+    }
+    .wrapper3 {
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-template-rows: 350%  10%;
+        height: 100%;
     }
 
-    .right {
-        background-image: url({% static "users/right.png" %});
-        background-size: 100%;
-        grid-column-start: 6;
-        grid-column-end: 7;
-        grid-row-start: 1;
-        grid-row-end: 3;
+    .link {
+        grid-column: 4 / 5;
+        grid-row: 2 / 3;
+        grid-row-end: 4; 
     }
-
     /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-    @media (max-width: 1050px) {
-      .one, .three {
-        grid-column-start: 1;
-        grid-column-end: 7;
-        margin: 0 auto;
-      }
-      .wrapper {
-          grid-template-columns: auto;
-          width: 90%;
-          grid-template-rows: auto;
-      }
-      .left, .right, .four, .links {
-          display: none;
-      }
-      .links-celular {
-          display: inline;
-          text-align: center;
-      }
-    }
+   
   </style>
   </head>
-  <body background-image="{% static "users/background.png" %}">
-    <br>
+  <body>
     <div class="wrapper">
-        <div class="one">
-            <img src="{% static "users/logo.png" %}" bottom="0" alt="logo">
-        </div>
         <div class="two">
-            <br>
-            <table class="links">
-                <tr>
-                    <td align="right">{{user.username}}</td>
-                </tr>
-                <tr>
-                    <td align="right"><a href="{% url 'logout' %}">logout</a></td>
-                </tr>
-                <tr>
-                    <td align="right"><a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a></td>
-                </tr>
-                <tr>
-                    <td align="right"><a href="{% url 'newauto' user.id %}">Cambiar Auto</a></td>
-                </tr>
-            </table>
+            <img src="{% static "users/info.png" %}" width="100%">
         </div>
-        <div class="links-celular">
-            <p><a href="{% url 'logout' %}">logout</a> | <a href="{% url 'newubicacion' user.id %}">Editar Ubicacion</a> 
-            | <a href="{% url 'newauto' user.id %}">Cambiar Auto</a></p>
+        <div class="one">
+            {% if user.is_authenticated %}
+            <div class="wrapper3">
+                <div class="link">
+                    <p class="right1"><a href="{% url 'logout' %}">logout</a><p>
+                </div>
+            </div>
+            {% endif %}
         </div>
-        <div class="three">
-            <img src="{% static "users/Tarjeta_Tuc.jpg" %}" width="100%" alt="logo">
-        </div>
-        <div class="four">
-            <hr style="height:7px" color="5d4b1c" margin-top="10">
-        </div>
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
+        {% block content %}
+        {% endblock %}
     </div>
   </body>
 </html>
