@@ -9,13 +9,11 @@
     <div class="wrapper2">
       {% if user.ubicacion %}
         <div class="four">
-          Mi direccion: {{ user.ubicacion.direccion }}<a href="{% url 'newubicacion' user.id %}" class="button2">Editar Ubicacion</a><br>
+          <p><a href="{% url 'newubicacion' user.id %}" class="button2">Editar Ubicacion</a> Mi direccion: {{ user.ubicacion.direccion }}</p>
           {% if not user.auto %}
-          <div class="five">
-          </div>
-          <p>Para postular a conductor debe agregar su auto <a href="{% url 'newauto' user.id %}" class="button2">Agregar Auto</a><br>
+          <p><a href="{% url 'newauto' user.id %}" class="button2">Agregar Auto</a> Para postular a conductor debe agregar su auto</p>
           {% else %}
-            <p>Mi auto: {{ user.auto.modelo }}, color: {{user.auto.color}}<a href="{% url 'newauto' user.id %}" class="button2">Editar Auto</a><br>
+            <p><a href="{% url 'newauto' user.id %}" class="button2">Editar Auto</a> Mi auto: {{ user.auto.modelo }}, color: {{user.auto.color}}</p>
         </div>
           <div class="five">
             {% if not user.conductor %}
@@ -26,7 +24,9 @@
           </div>
           {% endif %}
         {% else %}
-          <p>Para pedir un viaje debe agregar su ubicacion <a href="{% url 'newubicacion' user.id %}" class="button">Agregar Ubicacion</a>
+        <div class="four">
+          <p><a href="{% url 'newubicacion' user.id %}" class="button">Agregar Ubicacion</a> Para pedir un viaje debe agregar su ubicacion</p>
+        </div>
       {% endif %}
       <div class="six">
         {% if user.ubicacion %}

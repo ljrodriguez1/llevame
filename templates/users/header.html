@@ -31,9 +31,8 @@
         cursor: pointer;
     }
     .button2 {
-        background-color: #EF5A5A;
-        border: none;
-        color: white;
+        border: 3px solid #EF5A5A;
+        color: black;
         padding: 5px 7px;
         text-align: center;
         text-decoration: none;
@@ -54,7 +53,7 @@
         grid-row-end: 3;
     }
     .four {
-        margin: 0px auto;
+        float: left;
         grid-column-start: 1;
         grid-column-end: 3;
         grid-row-start: 1;
@@ -94,7 +93,7 @@
         display: grid;
         grid-gap: 20px;
         grid-template-columns: 40% 40% 20%;
-        grid-template-rows: 30% 70%;
+        grid-template-rows: auto auto;
         margin: 0 auto;
         width: 100%; 
     }
@@ -146,8 +145,10 @@
             </div>
             {% endif %}
         </div>
-        {% block content %}
-        {% endblock %}
+        <div class="three">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
   </body>
 </html>
