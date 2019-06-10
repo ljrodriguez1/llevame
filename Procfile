@@ -1,3 +1,3 @@
     
-api: gunicorn myapp.wsgi
-web: python users/herokubot.py
+web: gunicorn myapp.wsgi
+api: python users/herokubot.py
