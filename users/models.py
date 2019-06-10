@@ -78,3 +78,9 @@ class Pasajeros(models.Model):
 
     def __str__(self):
         return self.auto.modelo
+    
+class Usuario(models.Model):
+    chat_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    has_car = models.BooleanField(default=False)
+    money = models.IntegerField(default=0)

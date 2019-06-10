@@ -5,20 +5,20 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-users = {}
+from .models import Usuario
 AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
 
 def start(update, context):
-    if update.message.chat.id in users.keys():
+    if update.message.chat.id in [x.chat_id for x in Usuario.objects.all()]:
         reply_keyboard = [['Direccion','Llevame'],['Manejo']]
         update.message.reply_text(
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-        return AGE
+        return ConversationHandler.END
     else:
-        users.update({update.message.chat.id:{'name': update.message.from_user}})
+        user = Usuario(chat_id=update.message.chat.id, name=update.message.from_user.first_name)
         update.message.reply_text(
-            'Hola, Somos llevame y organizaremos tus turnos. dime tu Nombre!')
+            'Hola,{} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
         return AGE
 
 def age(update, context):
