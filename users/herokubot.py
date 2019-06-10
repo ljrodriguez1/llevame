@@ -8,6 +8,11 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 from models import Usuario
 AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myapp.settings')
 
 def start(update, context):
     if update.message.chat.id in [x.chat_id for x in Usuario.objects.all()]:
