@@ -105,6 +105,9 @@
         grid-row-start: 1;
         grid-row-end: 2;
         background-repeat: no-repeat;
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-template-rows: 60%  40%;
     }
     .two {
         grid-column-start: 3;
@@ -115,17 +118,11 @@
     .right1 {
         float: right;
     }
-    .wrapper3 {
-        display: grid;
-        grid-template-columns: 20% 20% 20% 20% 20%;
-        grid-template-rows: 350%  10%;
-        height: 100%;
-    }
+    
 
     .link {
         grid-column: 4 / 5;
         grid-row: 2 / 3;
-        grid-row-end: 4; 
     }
     /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
    
@@ -138,11 +135,9 @@
         </div>
         <div class="one">
             {% if user.is_authenticated %}
-            <div class="wrapper3">
                 <div class="link">
                     <p class="right1"><a href="{% url 'logout' %}">logout</a><p>
                 </div>
-            </div>
             {% endif %}
         </div>
         <div class="three">
