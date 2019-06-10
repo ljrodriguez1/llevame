@@ -5,7 +5,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-from .data import users
+users = {}
 AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
 
