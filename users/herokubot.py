@@ -104,7 +104,7 @@ def error(update, context):
 if __name__ == "__main__":
     # Set these variable to the appropriate values
     TOKEN = "767220717:AAG3wsBO3X8SUPrGUmfKRmIuimEvNZ_0ZIo"
-    NAME = "llevame-bot"
+    NAME = "grupo1-llevame"
 
     # Port is given by Heroku
     PORT = os.environ.get('PORT')
