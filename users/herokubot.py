@@ -5,7 +5,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-from .models import Usuario
+from models import Usuario
 AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
 
