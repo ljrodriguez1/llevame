@@ -1,10 +1,13 @@
 import os
 
 from django.core.wsgi import get_wsgi_application
+import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myapp.settings')
 
-application = get_wsgi_application()
+import django
+django.setup()
+#application = get_wsgi_application()
 
 import logging
 
@@ -12,7 +15,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-from models import Usuario
+from users.models import Usuario
 AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
 
