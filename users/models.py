@@ -86,3 +86,5 @@ class Usuario(AbstractUser):
     last_name = models.CharField(max_length=100)
     has_car = models.BooleanField(default=False)
     money = models.IntegerField(default=0)
+    manejo = models.BooleanField(default=False)
+    llevame = models.BooleanField(default=False)
