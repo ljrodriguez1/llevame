@@ -81,7 +81,7 @@ class Pasajeros(models.Model):
         return self.auto.modelo
 """
 class Usuario(AbstractUser):
-    chat_id = models.IntegerField(primary_key=True)
+    uid = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     has_car = models.BooleanField(default=False)
     money = models.IntegerField(default=0)
