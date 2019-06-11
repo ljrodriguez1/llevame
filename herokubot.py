@@ -44,16 +44,16 @@ def direccion(update, context):
     return ConversationHandler.END
 
 def manejo(update, context):
-    reply_keyboard = [["Hola"]]
+    reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
-    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
+    update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ConversationHandler.END
 
 def llevame(update, context):
-    reply_keyboard = [["Hola"]]
+    reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
-    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
+    update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ConversationHandler.END
 
