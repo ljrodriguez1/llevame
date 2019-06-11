@@ -39,7 +39,6 @@ def age(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-    update.message.text
     return GENDER
 
 def gender(update, context):
