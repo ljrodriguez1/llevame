@@ -1,9 +1,0 @@
-{% if ubicaciones %}
-    <ul>
-    {% for ubicacion in ubicaciones %}
-        <li><a href="/polls/{{ question.id }}/">latitud = {{ ubicacion.lat }}, longitud = {{ ubicacion.lng }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
