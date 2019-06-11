@@ -16,7 +16,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario
-AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
+AGE, GENDER, PHOTO, LOCATION, BIO, FOOTER, OPCION = range(7)
 
 
 def start(update, context):
@@ -158,7 +158,7 @@ if __name__ == "__main__":
                     MessageHandler('Llevame', llevame),
                     MessageHandler('Direccion', direccion)],
 
-            FOOTER: [MessageHandler(Filters.location, opcion)],
+            FOOTER: [MessageHandler(Filters.location, footer)],
 
             GENDER: [MessageHandler(Filters.location, gender)],
 
