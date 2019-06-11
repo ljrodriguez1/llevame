@@ -68,8 +68,8 @@ def manejo(update, context):
 def llevame(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
-    user.manejo = True
-    user.llevame = False
+    user.manejo = False
+    user.llevame = True
     user.save()
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
