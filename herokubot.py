@@ -154,9 +154,9 @@ if __name__ == "__main__":
         entry_points=[CommandHandler('start', start)],
 
         states={
-            OPCION: [MessageHandler('Manejo', manejo),
-                    MessageHandler('Llevame', llevame),
-                    MessageHandler('Direccion', direccion)],
+            OPCION: [MessageHandler(Filters.regex(re.compile(r'manejo', re.IGNORECASE), manejo),
+                    MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE), llevame),
+                    MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE), direccion)],
 
             FOOTER: [MessageHandler(Filters.location, footer)],
 
