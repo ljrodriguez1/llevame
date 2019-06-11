@@ -27,7 +27,7 @@ def start(update, context):
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
         return ConversationHandler.END
     except:
-        user = Usuario(chat_id=update.update.effective_user.id, name=update.message.from_user.first_name)
+        user = Usuario(chat_id=update.effective_user.id, name=update.message.from_user.first_name)
         update.message.reply_text(
             'Hola,{} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
         return AGE
