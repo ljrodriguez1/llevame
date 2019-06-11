@@ -20,13 +20,14 @@ AGE, GENDER, PHOTO, LOCATION, BIO = range(5)
 
 
 def start(update, context):
-    if update.message.chat.id in [x.chat_id for x in Usuario.objects.all()]:
+    try:
+        Usuario.objects.get(pk=update.effective_user.id)
         reply_keyboard = [['Direccion','Llevame'],['Manejo']]
         update.message.reply_text(
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
         return ConversationHandler.END
-    else:
-        user = Usuario(chat_id=update.message.chat.id, name=update.message.from_user.first_name)
+    except:
+        user = Usuario(chat_id=update.update.effective_user.id, name=update.message.from_user.first_name)
         update.message.reply_text(
             'Hola,{} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
         return AGE
