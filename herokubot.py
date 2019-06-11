@@ -43,12 +43,11 @@ def direccion(update, context):
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return SAVEDIRECCION
 
-def show_direccion(update, context):
+def save_direccion(update, context):
     reply_keyboard = [["Si"], ["No"]]
     update.message.reply_text('Tu direccion es {}'.format(update.message.location),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ConversationHandler.END
-
 
 def manejo(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
@@ -166,6 +165,8 @@ if __name__ == "__main__":
             OPCION: [MessageHandler(Filters.regex(re.compile(r'manejo', re.IGNORECASE)), manejo),
                     MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE)), llevame),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
+
+            SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion)],
 
             FOOTER: [MessageHandler(Filters.location, footer)],
 
