@@ -59,6 +59,7 @@ def manejo(update, context):
     update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     for user1 in Usuario.objects.all():
+        logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
         if user1.llevame:
             update.message.bot.send_message(user1.uid, "Hola te encontramos una ida")
     return ConversationHandler.END
@@ -71,6 +72,7 @@ def llevame(update, context):
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     for user1 in Usuario.objects.all():
+        logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
         if user1.manejo:
             update.message.bot.send_message(user1.uid, "hola alguien quiere ir en tu auto")
     return ConversationHandler.END
