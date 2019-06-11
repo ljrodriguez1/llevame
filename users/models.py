@@ -83,5 +83,6 @@ class Pasajeros(models.Model):
 class Usuario(AbstractUser):
     uid = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     has_car = models.BooleanField(default=False)
     money = models.IntegerField(default=0)
