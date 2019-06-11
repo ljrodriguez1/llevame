@@ -152,12 +152,12 @@ if __name__ == "__main__":
     dp.add_handler(conv_handler)
 
     dp.add_error_handler(error)
-    updater.start_polling()
-    """
+    #updater.start_polling()
+    
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
     updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
     updater.idle()
-    """
+    
