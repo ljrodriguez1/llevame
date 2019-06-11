@@ -27,17 +27,18 @@ def start(update, context):
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
         return ConversationHandler.END
     except:
-        user = Usuario(uid=update.effective_user.id, name=update.effective_user.first_name)
+        
+        user = Usuario(uid=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name)
         user.save()
         update.message.reply_text(
-            'Hola,{} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
+            'Hola, {} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
         return AGE
 
 def age(update, context):
     reply_keyboard = [[str(1950 + x) for x in range(60)]]
     update.message.text
     update.message.reply_text(
-        'Que año naciste{}'.format(update.message.text),
+        'Que año naciste {}'.format(update.message.text),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
     return GENDER
