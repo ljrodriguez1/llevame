@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario
-AGE, GENDER, PHOTO, LOCATION, BIO, FOOTER, OPCION = range(7)
+AGE, GENDER, PHOTO, LOCATION, BIO, FOOTER, OPCION, SAVEDIRECCION = range(8)
 
 
 def start(update, context):
@@ -41,7 +41,14 @@ def direccion(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return SAVEDIRECCION
+
+def show_direccion(update, context):
+    reply_keyboard = [["Si"], ["No"]]
+    update.message.reply_text('Tu direccion es {}'.format(update.message.location),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ConversationHandler.END
+
 
 def manejo(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
