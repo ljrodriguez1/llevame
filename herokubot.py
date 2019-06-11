@@ -25,21 +25,42 @@ def start(update, context):
         reply_keyboard = [['Direccion','Llevame'],['Manejo']]
         update.message.reply_text(
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-        return AGE
+        return OPCION
     except:
         
         user = Usuario(uid=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name)
         user.save()
         update.message.reply_text(
-            'Hola, {} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
-        return AGE
+            'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion'.format(user.name))
+        return FOOTER
 
-def age(update, context):
+def direccion(update, context):
     reply_keyboard = [["Hola"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-    return GENDER
+    return ConversationHandler.END
+
+def manejo(update, context):
+    reply_keyboard = [["Hola"]]
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return ConversationHandler.END
+
+def llevame(update, context):
+    reply_keyboard = [["Hola"]]
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return ConversationHandler.END
+
+def footer(update, context):
+    Usuario.objects.get(pk=update.effective_user.id)
+    reply_keyboard = [['Direccion','Llevame'],['Manejo']]
+    update.message.reply_text(
+        'Todo Esta listo, ya puedes buscar o ofrecer un viaje o editar tu ubicacion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return OPCION
 
 def gender(update, context):
     user = update.message.from_user
@@ -133,9 +154,14 @@ if __name__ == "__main__":
         entry_points=[CommandHandler('start', start)],
 
         states={
-            AGE: [MessageHandler(Filters.all, age)],
+            OPCION: [MessageHandler('Manejo', manejo),
+                    MessageHandler('Llevame', llevame)
+                    MessageHandler('Direccion', direccion)],
+
+            FOOTER: [MessageHandler(Filters.location, opcion)],
 
             GENDER: [MessageHandler(Filters.location, gender)],
+
 
             PHOTO: [MessageHandler(Filters.photo, photo),
                     CommandHandler('skip', skip_photo)],
