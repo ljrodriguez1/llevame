@@ -4,9 +4,9 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 import requests
 
-from .forms import CustomUserCreationForm, UbicacionForm, NewAutoForm
-from .models import Ubicacion, CustomUser, Pasajeros
-
+#from .forms import CustomUserCreationForm, UbicacionForm, NewAutoForm
+#from .models import Ubicacion, CustomUser, Pasajeros
+"""
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
@@ -109,7 +109,7 @@ def nollevar(request, pk):
     solicitante.save()
     solicitante.save()
     return HttpResponseRedirect(reverse_lazy('home'))
-
+"""
 
     
 

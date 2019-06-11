@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from math import sin, cos, sqrt, atan2, radians
 
-
+"""
 class CustomUser(AbstractUser):
     # add additional fields in here
     conductor = models.BooleanField(default=False)
@@ -79,8 +79,8 @@ class Pasajeros(models.Model):
 
     def __str__(self):
         return self.auto.modelo
-
-class Usuario(models.Model):
+"""
+class Usuario(AbstractUser):
     chat_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     has_car = models.BooleanField(default=False)
