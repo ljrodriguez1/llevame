@@ -133,9 +133,9 @@ if __name__ == "__main__":
         entry_points=[CommandHandler('start', start)],
 
         states={
-            AGE: [MessageHandler(Filters.location, age)],
+            AGE: [MessageHandler(Filters.all, age)],
 
-            GENDER: [MessageHandler(Filters.all, gender)],
+            GENDER: [MessageHandler(Filters.location, gender)],
 
             PHOTO: [MessageHandler(Filters.photo, photo),
                     CommandHandler('skip', skip_photo)],
