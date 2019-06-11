@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
         states={
             OPCION: [MessageHandler('Manejo', manejo),
-                    MessageHandler('Llevame', llevame)
+                    MessageHandler('Llevame', llevame),
                     MessageHandler('Direccion', direccion)],
 
             FOOTER: [MessageHandler(Filters.location, opcion)],
