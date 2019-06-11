@@ -28,6 +28,7 @@ def start(update, context):
         return ConversationHandler.END
     except:
         user = Usuario(chat_id=update.effective_user.id, name=update.message.from_user.first_name)
+        user.save()
         update.message.reply_text(
             'Hola,{} Somos llevame y organizaremos tus turnos. dime tu Nombre!'.format(user.name))
         return AGE
