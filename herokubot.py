@@ -35,10 +35,10 @@ def start(update, context):
         return AGE
 
 def age(update, context):
-    reply_keyboard = [[str(1950 + x) for x in range(60)]]
+    reply_keyboard = [["Hola"]]
+    user = Usuario.objects.get(pk=update.ffective_user.id)
     update.message.text
-    update.message.reply_text(
-        'Que año naciste {}'.format(update.message.text),
+    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
     return GENDER
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         entry_points=[CommandHandler('start', start)],
 
         states={
-            AGE: [MessageHandler(Filters.text, age)],
+            AGE: [MessageHandler(Filters.location, age)],
 
             GENDER: [MessageHandler(Filters.all, gender)],
 
