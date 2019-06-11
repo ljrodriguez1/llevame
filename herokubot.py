@@ -45,8 +45,10 @@ def direccion(update, context):
 
 def save_direccion(update, context):
     reply_keyboard = [["Si"], ["No"]]
-    update.message.reply_text('Tu direccion es {}'.format(update.message.location),
+    loc = update.message.location
+    update.message.reply_text('¿es esta tu direccion?',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    update.bot.send_location(update.message.chat.id, loc['latitud'], loc['longitud'])
     return ConversationHandler.END
 
 def manejo(update, context):
