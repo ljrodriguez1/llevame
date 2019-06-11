@@ -25,7 +25,7 @@ def start(update, context):
         reply_keyboard = [['Direccion','Llevame'],['Manejo']]
         update.message.reply_text(
             'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-        return ConversationHandler.END
+        return AGE
     except:
         
         user = Usuario(uid=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name)
