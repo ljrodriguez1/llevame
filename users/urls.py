@@ -4,7 +4,10 @@ from django.urls import path
 
 
 urlpatterns = [
-    """
+    
+]
+
+"""
     path('signup/', views.SignUp.as_view(), name='signup'),
     path('<int:pk>/ubicaciones/', views.UbicacionIndex.as_view(), name='ubicacion'),
     path('<int:pk>/newubicacion/', views.newubicacion, name='newubicacion'),
@@ -14,4 +17,3 @@ urlpatterns = [
     path('<int:pk>/newllevame/', views.newllevame, name='newllevame'),
     path('<int:pk>/nollevar/', views.nollevar, name='nollevar'),
     """
-]
