@@ -162,7 +162,8 @@ if __name__ == "__main__":
                     MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE)), llevame),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
 
-            SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion)],
+            SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion),
+                            MessageHandler(Filters.all, start)],
 
             FOOTER: [MessageHandler(Filters.location, footer)],
 
