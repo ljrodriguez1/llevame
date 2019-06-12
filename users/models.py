@@ -65,10 +65,12 @@ class Usuario(AbstractUser):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    has_car = models.BooleanField(default=False)
     money = models.IntegerField(default=0)
     lat = models.FloatField(default=0)
     lng = models.FloatField(default=0)
+    ida = models.CharField(max_length=50, default="Ida")
+    manejo = models.BooleanField(default=False)
+
 
     def ubicacion_cercana(self, ubicacion):
         R = 6373
@@ -86,19 +88,13 @@ class Usuario(AbstractUser):
         distance = R * c
         return distance < 3
     
-    def quiero_manejar(self, hora, tramo, capacidad, dia):
+    def quiero_manejar(self, tramo, hora, dia, capacidad=4):
         if tramo == "ida":
-            auto = Auto(conductor=self, capacidad=capacidad, ida=True, dia=dia)
+            auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=True, dia=dia)
         else:
-            auto = Auto(conductor=self, capacidad=capacidad, ida=False, dia=dia)
+            auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=False, dia=dia)
         return auto
     
-    def manejo(self):
-        try:
-            self.auto
-            return True
-        except:
-            return False
     
 class Auto(models.Model):
     conductor = models.OneToOneField(Usuario, on_delete=models.CASCADE)

@@ -17,7 +17,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-from users.models import Usuario
+from users.models import Usuario, Auto
 DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START= range(6)
 
 
@@ -61,7 +61,6 @@ def manejo(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     user.manejo = True
-    user.llevame = False
     user.save()
     update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -77,7 +76,6 @@ def llevame(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     user.manejo = False
-    user.llevame = True
     user.save()
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -95,6 +93,8 @@ def destino(update, context):
                       ["17:00", "18:30", "Otro"]]
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
+    user.ida = opcion
+    user.save()
     update.message.reply_text("¿Elegiste {}, A que hora quieres ir?".format(opcion),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ACCEPT
@@ -105,6 +105,8 @@ def accept(update, context):
     if user.manejo:
         update.message.reply_text("Tu viaje sera a las {}".format(opcion),
             reply_markup=ReplyKeyboardRemove())
+        user.quiero_manejar(user.ida, user.hora, "hoy")
+        user.save()
     else:
         update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
             reply_markup=ReplyKeyboardRemove())
