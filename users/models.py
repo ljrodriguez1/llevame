@@ -89,10 +89,7 @@ class Usuario(AbstractUser):
         return distance < 3
     
     def quiero_manejar(self, tramo, hora, dia, capacidad=4):
-        if tramo == "ida":
-            auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=True, dia=dia)
-        else:
-            auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=False, dia=dia)
+        auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
         return auto
     
     
