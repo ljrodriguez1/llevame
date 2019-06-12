@@ -53,9 +53,8 @@ def save_direccion(update, context):
     user.lat = loc["latitude"]
     user.lng = loc["longitude"]
     user.save()
-    update.message.reply_text('¿Tu direccion fue editada, puedes verla en el menu direccion?',
+    update.message.reply_text('Tu direccion fue editada, puedes verla en el menu direccion',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-    update.message.bot.send_location(update.message.chat.id, loc['latitude'], loc['longitude'])
     return START
 
 def manejo(update, context):
