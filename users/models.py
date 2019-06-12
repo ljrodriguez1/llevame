@@ -59,12 +59,53 @@ class Ubicacion(models.Model):
         distance = R * c
         return distance < 5
 
+"""
 
+class Usuario(AbstractUser):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    has_car = models.BooleanField(default=False)
+    money = models.IntegerField(default=0)
+    lat = models.FloatField(default=0)
+    lng = models.FloatField(default=0)
+
+    def ubicacion_cercana(self, ubicacion):
+        R = 6373
+        lat1 = radians(self.lat)
+        lng1 = radians(self.lng)
+        lat2 = radians(ubicacion.lat)
+        lng2 = radians(ubicacion.lng)
+
+        dlon = lng2 - lng1
+        dlat = lat2 - lat1
+
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        distance = R * c
+        return distance < 3
+    
+    def quiero_manejar(self, hora, tramo, capacidad, dia):
+        if tramo == "ida":
+            auto = Auto(conductor=self, capacidad=capacidad, ida=True, dia=dia)
+        else:
+            auto = Auto(conductor=self, capacidad=capacidad, ida=False, dia=dia)
+        return auto
+    
+    def manejo(self):
+        try:
+            self.auto
+            return True
+        except:
+            return False
+    
 class Auto(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    conductor = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     capacidad = models.IntegerField(default=4)
-    color = models.CharField(default='negro', max_length=50)
-    modelo = models.CharField(default='Mazda 2', max_length=50)
+    hora = models.CharField(max_length=6)
+    ida = models.BooleanField(default=False)
+    dia = models.DateField()
 
     def tengo_capacidad(self):
         pas = len(self.pasajeros.user.all())
@@ -75,16 +116,6 @@ class Auto(models.Model):
 
 class Pasajeros(models.Model):
     auto = models.OneToOneField(Auto, on_delete=models.CASCADE)
-    user = models.ManyToManyField(CustomUser)
-
+    user = models.ManyToManyField(Usuario)
     def __str__(self):
         return self.auto.modelo
-"""
-class Usuario(AbstractUser):
-    uid = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    has_car = models.BooleanField(default=False)
-    money = models.IntegerField(default=0)
-    manejo = models.BooleanField(default=False)
-    llevame = models.BooleanField(default=False)

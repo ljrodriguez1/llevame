@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario
-DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION = range(5)
+DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START= range(6)
 
 
 def start(update, context):
@@ -37,19 +37,26 @@ def start(update, context):
         return FOOTER
 
 def direccion(update, context):
-    reply_keyboard = [["Hola"]]
+    reply_keyboard = [["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
-    update.message.reply_text('Ingresa tu Direccion {}'.format(user.name),
+    update.message.reply_text('Esta es tu direccion {}'.format(user.name),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    update.message.bot.send_location(update.message.chat.id, user.lat, user.lng)
+    update.message.reply_text('Si quieres cambiarla envianos otra direccion, si no escribe atras',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return SAVEDIRECCION
 
 def save_direccion(update, context):
-    reply_keyboard = [["Si"], ["No"]]
+    reply_keyboard = [["OK"]]
     loc = update.message.location
-    update.message.reply_text('¿es esta tu direccion?',
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    user.lat = loc["latitude"]
+    user.lng = loc["longitude"]
+    user.save()
+    update.message.reply_text('¿Tu direccion fue editada, puedes verla en el menu direccion?',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     update.message.bot.send_location(update.message.chat.id, loc['latitude'], loc['longitude'])
-    return ConversationHandler.END
+    return START
 
 def manejo(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
@@ -105,7 +112,11 @@ def accept(update, context):
     return ConversationHandler.END
 
 def footer(update, context):
-    Usuario.objects.get(pk=update.effective_user.id)
+    loc = update.message.location
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    user.lat = loc["latitude"]
+    user.lng = loc["longitude"]
+    user.save()
     reply_keyboard = [['Direccion','Llevame'],['Manejo']]
     update.message.reply_text(
         'Todo Esta listo, ya puedes buscar o ofrecer un viaje o editar tu ubicacion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -158,6 +169,8 @@ if __name__ == "__main__":
             ACCEPT: [MessageHandler(Filters.all, accept)],
 
             DESTINO: [MessageHandler(Filters.all, destino)],
+
+            START: [MessageHandler(Filters.all, start)]
 
         },
 
