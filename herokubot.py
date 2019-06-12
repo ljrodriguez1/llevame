@@ -75,10 +75,12 @@ def llevame(update, context):
     user.save()
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    """
     for user1 in Usuario.objects.all():
         logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
         if user1.manejo:
             update.message.bot.send_message(user1.uid, "hola alguien quiere ir en tu auto")
+    """
     return DESTINO
 
 def destino(update, context):
@@ -93,8 +95,12 @@ def destino(update, context):
     
 def accept(update, context):
     opcion = update.message.text
-    update.message.reply_text("¿Tu viaje sera a las {},".format(opcion),
-        reply_markup=ReplyKeyboardRemove())
+    if user.maneja:
+        update.message.reply_text("Tu viaje sera a las {}".format(opcion),
+            reply_markup=ReplyKeyboardRemove())
+    else:
+        update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
+            reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
 
 def footer(update, context):
