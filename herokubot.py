@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario
-AGE, GENDER, PHOTO, LOCATION, BIO, FOOTER, OPCION, SAVEDIRECCION = range(8)
+DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION = range(5)
 
 
 def start(update, context):
@@ -59,11 +59,13 @@ def manejo(update, context):
     user.save()
     update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    """
     for user1 in Usuario.objects.all():
         logger.info("llevame %s: nombre %s", user1.llevame, user1.name)
         if user1.llevame:
             update.message.bot.send_message(user1.uid, "Hola te encontramos una ida")
-    return ConversationHandler.END
+    """
+    return DESTINO
 
 def llevame(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
@@ -77,6 +79,22 @@ def llevame(update, context):
         logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
         if user1.manejo:
             update.message.bot.send_message(user1.uid, "hola alguien quiere ir en tu auto")
+    return DESTINO
+
+def destino(update, context):
+    reply_keyboard = [["08:30", "10:00", "11:30"], 
+                      ["12:50", "14:00", "15:30"],
+                      ["17:00", "18:30", "Otro"]]
+    opcion = update.message.text
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    update.message.reply_text("¿Elegiste {}, A que hora quieres ir?".format(opcion),
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return ACCEPT
+    
+def accept(update, context):
+    opcion = update.message.text
+    update.message.reply_text("¿Tu viaje sera a las {},".format(opcion),
+        reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
 
 def footer(update, context):
@@ -85,63 +103,6 @@ def footer(update, context):
     update.message.reply_text(
         'Todo Esta listo, ya puedes buscar o ofrecer un viaje o editar tu ubicacion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return OPCION
-
-def gender(update, context):
-    user = update.message.from_user
-    logger.info("Gender of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('I see! Please send me a photo of yourself, '
-                              'so I know what you look like, or send /skip if you don\'t want to.',
-                              reply_markup=ReplyKeyboardRemove())
-
-    return PHOTO
-
-
-def photo(update, context):
-    user = update.message.from_user
-    photo_file = update.message.photo[-1].get_file()
-    photo_file.download('user_photo.jpg')
-    logger.info("Photo of %s: %s", user.first_name, 'user_photo.jpg')
-    update.message.reply_text('Gorgeous! Now, send me your location please, '
-                              'or send /skip if you don\'t want to.')
-
-    return LOCATION
-
-
-def skip_photo(update, context):
-    user = update.message.from_user
-    logger.info("User %s did not send a photo.", user.first_name)
-    update.message.reply_text('I bet you look great! Now, send me your location please, '
-                              'or send /skip.')
-
-    return LOCATION
-
-
-def location(update, context):
-    user = update.message.from_user
-    user_location = update.message.location
-    logger.info("Location of %s: %f / %f", user.first_name, user_location.latitude,
-                user_location.longitude)
-    update.message.reply_text('Maybe I can visit you sometime! '
-                              'At last, tell me something about yourself.')
-
-    return BIO
-
-
-def skip_location(update, context):
-    user = update.message.from_user
-    logger.info("User %s did not send a location.", user.first_name)
-    update.message.reply_text('You seem a bit paranoid! '
-                              'At last, tell me something about yourself.')
-
-    return BIO
-
-
-def bio(update, context):
-    user = update.message.from_user
-    logger.info("Bio of %s: %s", user.first_name, update.message.text)
-    update.message.reply_text('Thank you! I hope we can talk again some day.')
-
-    return ConversationHandler.END
 
 
 def cancel(update, context):
@@ -156,6 +117,7 @@ def cancel(update, context):
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
+
 
 if __name__ == "__main__":
     # Set these variable to the appropriate values
@@ -186,16 +148,10 @@ if __name__ == "__main__":
 
             FOOTER: [MessageHandler(Filters.location, footer)],
 
-            GENDER: [MessageHandler(Filters.location, gender)],
+            ACCEPT: [MessageHandler(Filters.all, accept)],
 
+            DESTINO: [MessageHandler(Filters.all, destino)],
 
-            PHOTO: [MessageHandler(Filters.photo, photo),
-                    CommandHandler('skip', skip_photo)],
-
-            LOCATION: [MessageHandler(Filters.location, location),
-                        CommandHandler('skip', skip_location)],
-
-            BIO: [MessageHandler(Filters.text, bio)]
         },
 
         fallbacks=[CommandHandler('cancel', cancel)]
