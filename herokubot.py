@@ -95,6 +95,7 @@ def destino(update, context):
     
 def accept(update, context):
     opcion = update.message.text
+    user = Usuario.objects.get(pk=update.effective_user.id)
     if user.maneja:
         update.message.reply_text("Tu viaje sera a las {}".format(opcion),
             reply_markup=ReplyKeyboardRemove())
