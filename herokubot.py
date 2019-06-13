@@ -156,7 +156,7 @@ def eliminar_viaje(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     user.manejo = False
     user.ida = "None"
-    user.save()
+    self.save()
     if update.message.text.lower() == "cancelar":
         update.message.reply_text("Cancelaste el Viaje",
              reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
