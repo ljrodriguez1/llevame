@@ -116,7 +116,8 @@ def accept(update, context):
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
-        user.quiero_manejar(user.ida, opcion, "hoy")
+        fecha = update.message.date
+        user.quiero_manejar(user.ida, opcion, fecha)
         user.save()
         update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
             reply_markup=ReplyKeyboardRemove())
