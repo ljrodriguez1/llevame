@@ -27,7 +27,7 @@ def start(update, context):
         user = Usuario.objects.get(pk=update.effective_user.id)
         if user.lat == 0:
             raise Exception("You Have to send a ubication")
-        if user.ida != "None":
+        elif user.ida != "None":
             reply_keyboard = [['Direccion'],['Ver Viaje']]
             update.message.reply_text(
                 'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard))
@@ -145,8 +145,6 @@ def ver_viaje(update, context):
             for pasajero in Pasajeros.objects.all():
                 if user in pasajero.users.all():
                     conductor = pasajero.auto.conductor
-
-
             reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
             update.message.reply_text("Te vas con {} {}".format(conductor.name, conductor.last_name),
                     reply_markup=ReplyKeyboardMarkup(reply_keyboard))
@@ -192,7 +190,13 @@ def eliminar_viaje(update, context):
     if user.manejo:
         user.auto.delete()
     else:
-        user.buscandoviaje.delete()
+        try:
+            user.buscandoviaje.delete()
+        except:
+            for pasajero in Pasajeros.objects.all():
+                if user in pasajero.users.all():
+                    conductor = pasajero.auto.conductor
+            conductor.auto.pasajeros.remove(user)
     user.manejo = False
     user.ida = "None"
     user.save()
