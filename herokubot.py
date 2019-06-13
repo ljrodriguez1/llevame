@@ -189,7 +189,7 @@ if __name__ == "__main__":
                     MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE)), llevame),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
             
-            VER_Viaje: [MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), ver_viaje),
+            VER_VIAJE: [MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), ver_viaje),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
 
             SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion),
