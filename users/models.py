@@ -135,6 +135,7 @@ class Pasajeros(models.Model):
     
     def posibles_pasajeros(self):
         print("----------------------------------------------------------------------------------------------------------------")
+        print(BuscandoViaje.objects.all())
         try:
             lista_final = []
             for posible in BuscandoViaje.objects.all():
