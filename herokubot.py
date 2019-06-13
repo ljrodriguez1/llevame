@@ -218,6 +218,7 @@ if __name__ == "__main__":
 
             START: [MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'cancelar viaje', re.IGNORECASE)), eliminar_viaje),
+                    MessageHandler(Filters.regex(re.compile(r'editar', re.IGNORECASE)), manejo),
                     MessageHandler(Filters.all, start)]
 
         },
