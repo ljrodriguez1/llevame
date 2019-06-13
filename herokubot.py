@@ -113,12 +113,12 @@ def accept(update, context):
     if user.manejo:
         user.quiero_manejar(user.ida, opcion, fecha)
         user.save()
-        update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
+        update.message.reply_text("Tu viaje sera a las {} de {}".format(user.auto.hora, user.auto.ida),
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
         user.quiero_viaje(user.ida, opcion, fecha)
         user.save()
-        update.message.reply_text("Estamos buscando un viaje para ti el dia {} a las {} de {}".format(user.buscandoviaje.dia, user.buscandoviaje.hora, user.buscandoviaje.ida),
+        update.message.reply_text("Estamos buscando un viaje para ti a las {} de {}".format(user.buscandoviaje.hora, user.buscandoviaje.ida),
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
@@ -130,10 +130,10 @@ def ver_viaje(update, context):
         auto = user.auto
         try:
             personas = user.auto.pasajeros.users.all()
-            update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
+            update.message.reply_text("hay {} personas en tu auto \nTu viaje sera a las {} de {}".format(str(len(personas)), auto.hora, auto.ida),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         except:
-            update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
+            update.message.reply_text("tu auto esta vacio \nTu viaje sera a las {} de {}".format(auto.hora, auto.ida),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
         try:
