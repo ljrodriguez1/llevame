@@ -18,16 +18,22 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario, Auto
-DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START= range(6)
+DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_Viaje = range(7)
 
 
 def start(update, context):
     try:
-        Usuario.objects.get(pk=update.effective_user.id)
-        reply_keyboard = [['Direccion','Llevame'],['Manejo']]
-        update.message.reply_text(
-            'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-        return OPCION
+        user = Usuario.objects.get(pk=update.effective_user.id)
+        if user.manejo:
+            reply_keyboard = [['Direccion'],['Editar Viaje']]
+            update.message.reply_text(
+                'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+            return VER_VIAJE
+        else:
+            reply_keyboard = [['Direccion','Llevame'],['Manejo']]
+            update.message.reply_text(
+                'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+            return OPCION
     except:
         
         user = Usuario(id=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name, username=update.effective_user.id)
@@ -35,6 +41,7 @@ def start(update, context):
         update.message.reply_text(
             'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion'.format(user.name))
         return FOOTER
+
 
 def direccion(update, context):
     reply_keyboard = [["Atras"]]
@@ -46,6 +53,7 @@ def direccion(update, context):
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return SAVEDIRECCION
 
+
 def save_direccion(update, context):
     reply_keyboard = [["OK"]]
     loc = update.message.location
@@ -56,6 +64,7 @@ def save_direccion(update, context):
     update.message.reply_text('Tu direccion fue editada, puedes verla en el menu direccion',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
+
 
 def manejo(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
@@ -72,6 +81,7 @@ def manejo(update, context):
     """
     return DESTINO
 
+
 def llevame(update, context):
     reply_keyboard = [["Ida"], ["vuelta"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
@@ -87,6 +97,7 @@ def llevame(update, context):
     """
     return DESTINO
 
+
 def destino(update, context):
     reply_keyboard = [["08:30", "10:00", "11:30"], 
                       ["12:50", "14:00", "15:30"],
@@ -98,8 +109,10 @@ def destino(update, context):
     update.message.reply_text("¿Elegiste {}, A que hora quieres ir?".format(opcion),
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return ACCEPT
-    
+
+
 def accept(update, context):
+    reply_keyboard = [["Editar"], ["Atras"]]
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
@@ -110,8 +123,21 @@ def accept(update, context):
     else:
         update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
             reply_markup=ReplyKeyboardRemove())
-    return ConversationHandler.END
+    return START
 
+def ver_viaje(update,context):
+    reply_keyboard = [["Editar"], ["Atras"]]
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    auto = user.auto
+    personas = auto.pasajeros.users.all()
+    if len(personas) == 0:
+        update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
+            reply_markup=ReplyKeyboardRemove())
+    else:
+        update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
+             reply_markup=ReplyKeyboardRemove())
+    return START
+    
 def footer(update, context):
     loc = update.message.location
     user = Usuario.objects.get(pk=update.effective_user.id)
@@ -161,6 +187,9 @@ if __name__ == "__main__":
         states={
             OPCION: [MessageHandler(Filters.regex(re.compile(r'manejo', re.IGNORECASE)), manejo),
                     MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE)), llevame),
+                    MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
+            
+            VER_Viaje: [MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), ver_viaje),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
 
             SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion),

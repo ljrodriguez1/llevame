@@ -101,7 +101,7 @@ class Auto(models.Model):
     dia = models.DateField()
 
     def tengo_capacidad(self):
-        pas = len(self.pasajeros.user.all())
+        pas = len(self.pasajeros.users.all())
         if pas >= self.capacidad:
             return False
         else:
@@ -109,6 +109,6 @@ class Auto(models.Model):
 
 class Pasajeros(models.Model):
     auto = models.OneToOneField(Auto, on_delete=models.CASCADE)
-    user = models.ManyToManyField(Usuario)
+    users = models.ManyToManyField(Usuario)
     def __str__(self):
         return self.auto.modelo
