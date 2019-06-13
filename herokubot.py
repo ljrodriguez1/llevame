@@ -19,7 +19,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 
 from users.models import Usuario, Auto
 from keyboards import add_user
-DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE = range(7)
+DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE, ADDUSER = range(8)
 
 
 def start(update, context):
@@ -156,14 +156,14 @@ def agregar_pasajeros(update, context):
         reply_keyboard = add_user[contador]
         update.message.reply_text("Para subir a usuario apreta su numero",
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+        return ADDUSER
 
     
     else:
         reply_keyboard = [["Atras"]]
         update.message.reply_text("Nadie esta buscando Vuelta por el momento \nno te preocupes por revisar nosotros te avisaremos cuando alguien quiera",
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
-
-    return START
+        return START
 
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
