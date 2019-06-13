@@ -146,7 +146,7 @@ def ver_viaje(update, context):
                 if user in pasajero.users.all():
                     conductor = pasajero.auto.conductor
                 try:
-                    conductor
+                    a = conductor
                     reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
                     update.message.reply_text("Te vas con {} {}".format(conductor.name, conductor.last_name),
                             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
