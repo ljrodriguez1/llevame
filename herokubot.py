@@ -158,6 +158,8 @@ def eliminar_viaje(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
         user.auto.delete()
+    else:
+        user.buscandoviaje.delete()
     user.manejo = False
     user.ida = "None"
     user.save()
