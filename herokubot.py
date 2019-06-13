@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario, Auto
-from keyboards import add_user
+from users.keyboards import add_user
 DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE, ADDUSER = range(8)
 
 
