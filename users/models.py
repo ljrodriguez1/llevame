@@ -139,7 +139,8 @@ class Pasajeros(models.Model):
             lista_final = []
             for posible in BuscandoViaje.objects.all():
                 if self.auto.conductor.ubicacion_cercana(posible.user):
-                    lista_final.append(posible.user)
+                    if self.auto.hora == posible.user.hora and self.auto.tramo == posible.user.tramo:
+                        lista_final.append(posible.user)
             return lista_final
         except:
             return []
