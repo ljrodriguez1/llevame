@@ -17,7 +17,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
 
-from users.models import Usuario, Auto
+from users.models import Usuario, Auto, Pasajeros
 from users.keyboards import addUser
 DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE, ADDUSER = range(8)
 
@@ -142,8 +142,13 @@ def ver_viaje(update, context):
             update.message.reply_text("Estamos buscando un viaje para ti",
                     reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         except:
+            for pasajero in Pasajeros.objects.all():
+                if user in pasajero.users.all():
+                    conductor = pasajero.auto.conductor
+
+
             reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
-            update.message.reply_text("Te vas con alguien",
+            update.message.reply_text("Te vas con {} {}".format(conductor.name, conductor.last_name),
                     reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
