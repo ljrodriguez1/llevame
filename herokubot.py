@@ -39,7 +39,7 @@ def start(update, context):
         user = Usuario(id=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name, username=update.effective_user.id)
         user.save()
         update.message.reply_text(
-            'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion'.format(user.name))
+            'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion \n la direccion no debe ser escrita, sino que deben adjuntar archivo de ubicacion'.format(user.name))
         return FOOTER
 
 
