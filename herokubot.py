@@ -131,6 +131,7 @@ def ver_viaje(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     auto = user.auto
     try:
+        personas = user.auto.personas.all()
         update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
              reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     except:
