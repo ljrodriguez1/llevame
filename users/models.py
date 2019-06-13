@@ -89,6 +89,10 @@ class Usuario(AbstractUser):
         return distance < 3
     
     def quiero_manejar(self, tramo, hora, dia, capacidad=4):
+        try:
+             self.auto.delete()
+        except:
+            pass
         auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
         auto.save()
         
