@@ -142,8 +142,8 @@ class Pasajeros(models.Model):
             print("entre al try")
             for posible in BuscandoViaje.objects.all():
                 print(auto.conductor.ubicacion_cercana(posible.user))
-                if auto.conductor.ubicacion_cercana(posible):
-                    lista_final.append(posible)
+                if auto.conductor.ubicacion_cercana(posible.user):
+                    lista_final.append(posible.user)
             return lista_final
         except:
             return []
