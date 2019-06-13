@@ -68,7 +68,7 @@ class Usuario(AbstractUser):
     money = models.IntegerField(default=0)
     lat = models.FloatField(default=0)
     lng = models.FloatField(default=0)
-    ida = models.CharField(max_length=50, default="Ida")
+    ida = models.CharField(max_length=50, default="None")
     manejo = models.BooleanField(default=False)
 
 

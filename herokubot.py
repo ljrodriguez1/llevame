@@ -26,7 +26,7 @@ def start(update, context):
         user = Usuario.objects.get(pk=update.effective_user.id)
         if user.lat == 0:
             raise Exception("You Have to send a ubication")
-        if user.manejo:
+        if user.ida != "None":
             reply_keyboard = [['Direccion'],['Ver Viaje']]
             update.message.reply_text(
                 'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
@@ -133,16 +133,21 @@ def accept(update, context):
 
 
 def ver_viaje(update, context):
-    reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
-    user = Usuario.objects.get(pk=update.effective_user.id)
-    auto = user.auto
-    try:
-        personas = user.auto.personas.all()
-        update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
-             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
-    except:
-        update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
-            reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    if user.manejo:
+        reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
+        user = Usuario.objects.get(pk=update.effective_user.id)
+        auto = user.auto
+        try:
+            personas = user.auto.personas.all()
+            update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+        except:
+            update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    else:
+        reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
+        update.message.reply_text("Estamos buscando un viaje para ti",
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
 
 
