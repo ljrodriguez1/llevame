@@ -141,7 +141,7 @@ class Pasajeros(models.Model):
                     lista_final.append(posible)
             return lista_final
         except:
-            return None
+            return []
 
     def __str__(self):
         return self.auto.modelo
