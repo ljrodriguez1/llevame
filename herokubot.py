@@ -131,6 +131,7 @@ def accept(update, context):
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
 
+
 def ver_viaje(update, context):
     reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
@@ -143,7 +144,8 @@ def ver_viaje(update, context):
         update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
-    
+
+
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
@@ -157,6 +159,7 @@ def eliminar_viaje(update, context):
         update.message.reply_text("Tu viaje fue eliminado",
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
+
 
 def footer(update, context):
     loc = update.message.location
