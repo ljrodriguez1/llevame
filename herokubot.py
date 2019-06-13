@@ -145,7 +145,7 @@ def ver_viaje(update, context):
             update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     else:
-        reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
+        reply_keyboard = [["Editar Viaje", "Eliminar"], ["Atras"]]
         update.message.reply_text("Estamos buscando un viaje para ti",
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
@@ -156,6 +156,7 @@ def eliminar_viaje(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     user.auto.delete()
     user.manejo = False
+    user.ida = "None"
     user.save()
     if update.message.text.lower() == "cancelar":
         update.message.reply_text("Cancelaste el Viaje",
@@ -233,6 +234,7 @@ if __name__ == "__main__":
             START: [MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'cancelar viaje', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'editar', re.IGNORECASE)), manejo),
+                    MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), llevame),
                     MessageHandler(Filters.all, start)]
 
         },
