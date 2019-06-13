@@ -94,9 +94,9 @@ class Usuario(AbstractUser):
         except:
             pass
         auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
+        auto.save()
         pasajeros = Pasajeros(auto=auto)
         pasajeros.save()
-        auto.save()
         self.save()
     
     def quiero_viaje(self, tramo, hora, dia):
