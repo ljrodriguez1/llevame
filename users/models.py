@@ -95,6 +95,7 @@ class Usuario(AbstractUser):
             pass
         auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
         auto.save()
+        user.save()
         
     
     

@@ -154,7 +154,6 @@ def ver_viaje(update, context):
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
-    user.auto.delete()
     user.manejo = False
     user.ida = "None"
     user.save()
