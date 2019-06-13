@@ -133,9 +133,9 @@ def accept(update, context):
 
 
 def ver_viaje(update, context):
+    user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
         reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
-        user = Usuario.objects.get(pk=update.effective_user.id)
         auto = user.auto
         try:
             personas = user.auto.personas.all()
