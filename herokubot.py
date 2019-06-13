@@ -196,7 +196,7 @@ def eliminar_viaje(update, context):
             for pasajero in Pasajeros.objects.all():
                 if user in pasajero.users.all():
                     conductor = pasajero.auto.conductor
-            conductor.auto.pasajeros.remove(user)
+            conductor.auto.pasajeros.users.remove(user)
     user.manejo = False
     user.ida = "None"
     user.save()
