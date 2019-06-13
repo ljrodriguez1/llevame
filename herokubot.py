@@ -144,8 +144,12 @@ def eliminar_viaje(update, context):
     user.auto.delete()
     user.manejo = False
     user.save()
-    update.message.reply_text("Tu viaje fue eliminado",
+    if update.message.text.lower() == "cancelar":
+        update.message.reply_text("Cancelaste el Viaje",
              reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    else: 
+        update.message.reply_text("Tu viaje fue eliminado",
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
 
 def footer(update, context):
@@ -212,6 +216,7 @@ if __name__ == "__main__":
             DESTINO: [MessageHandler(Filters.all, destino)],
 
             START: [MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
+                    MessageHandler(Filters.regex(re.compile(r'cancelar', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.all, start)]
 
         },
