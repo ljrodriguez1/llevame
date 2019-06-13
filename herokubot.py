@@ -136,9 +136,15 @@ def ver_viaje(update, context):
             update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
-        reply_keyboard = [["Editar Viaje", "Eliminar"], ["Atras"]]
-        update.message.reply_text("Estamos buscando un viaje para ti",
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+        try:
+            user.buscandoviaje
+            reply_keyboard = [["Editar Viaje", "Eliminar"], ["Atras"]]
+            update.message.reply_text("Estamos buscando un viaje para ti",
+                    reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+        except:
+            reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
+            update.message.reply_text("Te vas con alguien",
+                    reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 def agregar_pasajeros(update, context):
