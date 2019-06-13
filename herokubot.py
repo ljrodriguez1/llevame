@@ -78,12 +78,6 @@ def manejo(update, context):
     user.save()
     update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard))
-    """
-    for user1 in Usuario.objects.all():
-        logger.info("llevame %s: nombre %s", user1.llevame, user1.name)
-        if user1.llevame:
-            update.message.bot.send_message(user1.uid, "Hola te encontramos una ida")
-    """
     return DESTINO
 
 
@@ -94,12 +88,6 @@ def llevame(update, context):
     user.save()
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard))
-    """
-    for user1 in Usuario.objects.all():
-        logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
-        if user1.manejo:
-            update.message.bot.send_message(user1.uid, "hola alguien quiere ir en tu auto")
-    """
     return DESTINO
 
 
@@ -137,10 +125,10 @@ def accept(update, context):
 def ver_viaje(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
-        reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
+        reply_keyboard = [["Agregar Pasajeros", "Editar"], ["Eliminar","Atras"]]
         auto = user.auto
         try:
-            personas = user.auto.personas.all()
+            personas = user.auto.pasajeros.users.all()
             update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         except:
@@ -152,7 +140,21 @@ def ver_viaje(update, context):
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
+def agregar_pasajeros(update, context):
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    pos = user.auto.pasajeros.posibles_pasajeros()
+    if pos != "None":
+        update.message.reply_text("a continuacion mostraremos los usuarios que quieren vuelta")
+        for posible in pos:
+            update.message.reply_text("{} {} Quiere ir en tu auto y vive en:".format(posible.name, posible.last_name))
+            update.message.bot.send_location(update.message.chat.id, posible.lat, posible.lng)
+    
+    else:
+        reply_keyboard = [["Atras"]]
+        update.message.reply_text("Estamos buscando un viaje para ti",
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
 
+    return START
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
@@ -236,7 +238,8 @@ if __name__ == "__main__":
 
             DESTINO: [MessageHandler(Filters.all, destino)],
 
-            START: [MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
+            START: [MessageHandler(Filters.regex(re.compile(r'Agregar pasajeros', re.IGNORECASE)), agregar_pasajeros),
+                    MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'cancelar viaje', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'^editar$', re.IGNORECASE)), manejo),
                     MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), llevame),
