@@ -145,9 +145,18 @@ def ver_viaje(update, context):
             for pasajero in Pasajeros.objects.all():
                 if user in pasajero.users.all():
                     conductor = pasajero.auto.conductor
-            reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
-            update.message.reply_text("Te vas con {} {}".format(conductor.name, conductor.last_name),
-                    reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+                try:
+                    conductor
+                    reply_keyboard = [["Cancelar Viaje"], ["Atras"]]
+                    update.message.reply_text("Te vas con {} {}".format(conductor.name, conductor.last_name),
+                            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+                except:
+                    reply_keyboard = [["Atras"]]
+                    user.manejo = False
+                    user.ida = "None"
+                    user.save()
+                    update.message.reply_text("El Conductor a eliminado su viaje",
+                            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 def agregar_pasajeros(update, context):
