@@ -151,7 +151,7 @@ def agregar_pasajeros(update, context):
     
     else:
         reply_keyboard = [["Atras"]]
-        update.message.reply_text("Estamos buscando un viaje para ti",
+        update.message.reply_text("Nadie esta buscando Vuelta por el momento \nno te preocupes por revisar nosotros te avisaremos cuando alguien quiera",
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
 
     return START
