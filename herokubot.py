@@ -127,7 +127,7 @@ def accept(update, context):
     return START
 
 def ver_viaje(update, context):
-    reply_keyboard = [["Editar"], ["Eliminar"], ["Atras"]]
+    reply_keyboard = [["Editar", "Eliminar"], ["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     auto = user.auto
     try:
@@ -211,7 +211,8 @@ if __name__ == "__main__":
 
             DESTINO: [MessageHandler(Filters.all, destino)],
 
-            START: [MessageHandler(Filters.all, start)]
+            START: [MessageHandler(Filters.all, start),
+                    MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje)]]
 
         },
 
