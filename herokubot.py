@@ -25,7 +25,7 @@ def start(update, context):
     try:
         user = Usuario.objects.get(pk=update.effective_user.id)
         if user.manejo:
-            reply_keyboard = [['Direccion'],['Editar Viaje']]
+            reply_keyboard = [['Direccion'],['Ver Viaje']]
             update.message.reply_text(
                 'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
             return VER_VIAJE
@@ -204,7 +204,7 @@ if __name__ == "__main__":
                     MessageHandler(Filters.regex(re.compile(r'llevame', re.IGNORECASE)), llevame),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
             
-            VER_VIAJE: [MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), ver_viaje),
+            VER_VIAJE: [MessageHandler(Filters.regex(re.compile(r'ver viaje', re.IGNORECASE)), ver_viaje),
                     MessageHandler(Filters.regex(re.compile(r'direccion', re.IGNORECASE)), direccion)],
 
             SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion),
