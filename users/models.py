@@ -94,9 +94,19 @@ class Usuario(AbstractUser):
         except:
             pass
         auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
+        pasajeros = Pasajeros(auto=auto)
+        pasajeros.save()
         auto.save()
         self.save()
-        
+    
+    def quiero_viaje(self, tramo, hora, dia):
+        try:
+             self.buscandoviaje.delete()
+        except:
+            pass
+        viaje = BuscandoViaje(conductor=self, hora=hora, ida=tramo, dia=dia)
+        viaje.save()
+        self.save()
     
     
 class Auto(models.Model):
@@ -116,5 +126,28 @@ class Auto(models.Model):
 class Pasajeros(models.Model):
     auto = models.OneToOneField(Auto, on_delete=models.CASCADE)
     users = models.ManyToManyField(Usuario)
+
+    def agregar_pasajero(self, pasajero):
+        pasajero.buscandoviaje.delete()
+        self.users.add(pasajero)
+        self.save()
+        pasajero.save()
+    
+    def posibles_pasajeros(self):
+        try:
+            lista_final = []
+            for posible in BuscandoViaje.objects.all():
+                if auto.conductor.ubicacion_cercana(posible):
+                    lista_final.append(posible)
+            return lista_final
+        except:
+            return None
+
     def __str__(self):
         return self.auto.modelo
+
+class BuscandoViaje(models.Model):
+    user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+    hora = models.CharField(max_length=6)
+    ida = models.CharField(max_length=10)
+    dia = models.DateField()

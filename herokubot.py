@@ -127,7 +127,9 @@ def accept(update, context):
         update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
-        update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
+        user.quiero_viaje(user.ida, opcion, fecha)
+        user.save()
+        update.message.reply_text("Estamos buscando un viaje para ti el dia {} a las {} de {}".format(user.buscandoviaje.dia, user.buscandoviaje.hora, user.buscando.ida),
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
