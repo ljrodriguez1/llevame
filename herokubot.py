@@ -169,7 +169,7 @@ def add_user(update, context):
     reply_keyboard = ["Aceptar"]
     user = Usuario.objects.get(pk=update.effective_user.id)
     opcion = update.message.text
-    pasajero = user.auto.pasajeros.posibles_pasajeros()[int(opcion)]
+    pasajero = user.auto.pasajeros.posibles_pasajeros()[int(opcion) - 1]
     user.auto.pasajeros.agregar_pasajero(pasajero)
     update.message.reply_text("Se añadio a {} a tu auto".format(pasajero.name),
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
