@@ -166,7 +166,7 @@ def agregar_pasajeros(update, context):
         return START
 
 def add_user(update, context):
-    reply_keyboard = ["Aceptar"]
+    reply_keyboard = [["Aceptar"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     opcion = update.message.text
     pasajero = user.auto.pasajeros.posibles_pasajeros()[int(opcion) - 1]
