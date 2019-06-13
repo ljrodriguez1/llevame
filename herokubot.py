@@ -112,7 +112,7 @@ def destino(update, context):
 
 
 def accept(update, context):
-    reply_keyboard = [["Ver Viaje"], ["Cancelar"]]
+    reply_keyboard = [["Aceptar"], ["Cancelar Viaje"]]
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
@@ -217,7 +217,7 @@ if __name__ == "__main__":
             DESTINO: [MessageHandler(Filters.all, destino)],
 
             START: [MessageHandler(Filters.regex(re.compile(r'eliminar', re.IGNORECASE)), eliminar_viaje),
-                    MessageHandler(Filters.regex(re.compile(r'cancelar', re.IGNORECASE)), eliminar_viaje),
+                    MessageHandler(Filters.regex(re.compile(r'cancelar viaje', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.all, start)]
 
         },
