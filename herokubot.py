@@ -120,10 +120,10 @@ def accept(update, context):
         user.quiero_manejar(user.ida, opcion, fecha)
         user.save()
         update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
-            reply_markup=ReplyKeyboardRemove())
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     else:
         update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
-            reply_markup=ReplyKeyboardRemove())
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
 
 def ver_viaje(update,context):
@@ -132,10 +132,10 @@ def ver_viaje(update,context):
     auto = user.auto
     try:
         update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
-             reply_markup=ReplyKeyboardRemove())
+             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     except:
         update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
-            reply_markup=ReplyKeyboardRemove())
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
     
 def footer(update, context):
