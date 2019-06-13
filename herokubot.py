@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario, Auto
-DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_Viaje = range(7)
+DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE = range(7)
 
 
 def start(update, context):
