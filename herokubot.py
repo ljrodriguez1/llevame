@@ -23,6 +23,8 @@ DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE = range(7)
 
 def start(update, context):
     try:
+        if user.lat == 0:
+            raise Exception("You Have to send a ubication")
         user = Usuario.objects.get(pk=update.effective_user.id)
         if user.manejo:
             reply_keyboard = [['Direccion'],['Ver Viaje']]
