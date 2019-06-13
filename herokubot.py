@@ -130,13 +130,12 @@ def ver_viaje(update,context):
     reply_keyboard = [["Editar"], ["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     auto = user.auto
-    personas = auto.pasajeros.users.all()
-    if len(personas) == 0:
-        update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
-            reply_markup=ReplyKeyboardRemove())
-    else:
+    try:
         update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
              reply_markup=ReplyKeyboardRemove())
+    except:
+        update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
+            reply_markup=ReplyKeyboardRemove())
     return START
     
 def footer(update, context):
