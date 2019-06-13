@@ -23,9 +23,9 @@ DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE = range(7)
 
 def start(update, context):
     try:
+        user = Usuario.objects.get(pk=update.effective_user.id)
         if user.lat == 0:
             raise Exception("You Have to send a ubication")
-        user = Usuario.objects.get(pk=update.effective_user.id)
         if user.manejo:
             reply_keyboard = [['Direccion'],['Ver Viaje']]
             update.message.reply_text(
@@ -37,11 +37,14 @@ def start(update, context):
                 'Elige Opcion', reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
             return OPCION
     except:
-        
-        user = Usuario(id=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name, username=update.effective_user.id)
-        user.save()
-        update.message.reply_text(
-            'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion \n la direccion no debe ser escrita, sino que deben adjuntar archivo de ubicacion'.format(user.name))
+        try: 
+            user = Usuario.objects.get(pk=update.effective_user.id)
+            update.message.reply_text('Acuerdate que la direccion debes enviarla como archivo adjunto, no en palabras')
+        except:
+            user = Usuario(id=update.effective_user.id, name=update.effective_user.first_name, last_name=update.effective_user.last_name, username=update.effective_user.id)
+            user.save()
+            update.message.reply_text(
+                'Hola, {} Somos llevame y organizaremos tus turnos. primero debes señalarnos tu direccion \n la direccion no debe ser escrita, sino que deben adjuntar archivo de ubicacion'.format(user.name))
         return FOOTER
 
 
