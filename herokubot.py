@@ -112,7 +112,7 @@ def destino(update, context):
 
 
 def accept(update, context):
-    reply_keyboard = [["Editar"], ["Atras"]]
+    reply_keyboard = [["Ver Viaje"], ["Cancelar"]]
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
     if user.manejo:
@@ -126,8 +126,8 @@ def accept(update, context):
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
 
-def ver_viaje(update,context):
-    reply_keyboard = [["Editar"], ["Atras"]]
+def ver_viaje(update, context):
+    reply_keyboard = [["Editar"], ["Eliminar"], ["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     auto = user.auto
     try:
@@ -138,6 +138,12 @@ def ver_viaje(update,context):
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
     
+def eliminar_viaje(update, context):
+    reply_keyboard = [["Aceptar"]]
+    update.message.reply_text("Tu viaje fue eliminado",
+             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
+    return START
+
 def footer(update, context):
     loc = update.message.location
     user = Usuario.objects.get(pk=update.effective_user.id)
