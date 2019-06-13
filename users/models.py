@@ -130,9 +130,9 @@ class Pasajeros(models.Model):
 
     def agregar_pasajero(self, pasajero):
         pasajero.buscandoviaje.delete()
+        pasajero.save()
         self.users.add(pasajero)
         self.save()
-        pasajero.save()
     
     def posibles_pasajeros(self):
         try:

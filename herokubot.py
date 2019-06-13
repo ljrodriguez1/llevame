@@ -18,7 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario, Auto
-from users.keyboards import add_user
+from users.keyboards import addUser
 DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE, ADDUSER = range(8)
 
 
@@ -153,7 +153,7 @@ def agregar_pasajeros(update, context):
             if contador == 4:
                 break
             contador += 1
-        reply_keyboard = add_user[contador]
+        reply_keyboard = addUser[contador - 1]
         update.message.reply_text("Para subir a usuario apreta su numero",
                 reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         return ADDUSER
@@ -164,6 +164,16 @@ def agregar_pasajeros(update, context):
         update.message.reply_text("Nadie esta buscando Vuelta por el momento \nno te preocupes por revisar nosotros te avisaremos cuando alguien quiera",
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         return START
+
+def add_user(update, context):
+    reply_keyboard = ["Aceptar"]
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    opcion = update.message.text
+    pasajero = user.auto.pasajeros.posibles_pasajeros()[int(opcion)]
+    user.auto.pasajeros.agregar_pasajero(pasajero)
+    update.message.reply_text("Se añadio a {} a tu auto".format(pasajero.name),
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+    return START
 
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
@@ -253,7 +263,10 @@ if __name__ == "__main__":
                     MessageHandler(Filters.regex(re.compile(r'cancelar viaje', re.IGNORECASE)), eliminar_viaje),
                     MessageHandler(Filters.regex(re.compile(r'^editar$', re.IGNORECASE)), manejo),
                     MessageHandler(Filters.regex(re.compile(r'editar viaje', re.IGNORECASE)), llevame),
-                    MessageHandler(Filters.all, start)]
+                    MessageHandler(Filters.all, start)],
+            
+            ADDUSER: [MessageHandler(Filters.regex(re.compile(r'Atras', re.IGNORECASE)), start),
+                      MessageHandler(Filters.regex(re.compile(r'[0-4]', re.IGNORECASE)), add_user)]
 
         },
 
