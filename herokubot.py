@@ -143,7 +143,7 @@ def ver_viaje(update, context):
 def agregar_pasajeros(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     pos = user.auto.pasajeros.posibles_pasajeros()
-    if pos != "None":
+    if pos != None:
         update.message.reply_text("a continuacion mostraremos los usuarios que quieren vuelta")
         for posible in pos:
             update.message.reply_text("{} {} Quiere ir en tu auto y vive en:".format(posible.name, posible.last_name))
@@ -155,6 +155,7 @@ def agregar_pasajeros(update, context):
             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
 
     return START
+
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
