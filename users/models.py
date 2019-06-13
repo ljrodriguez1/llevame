@@ -104,6 +104,7 @@ class Usuario(AbstractUser):
              self.buscandoviaje.delete()
         except:
             pass
+        print("Creee mi viajee")
         viaje = BuscandoViaje(user=self, hora=hora, ida=tramo, dia=dia)
         viaje.save()
         self.save()
