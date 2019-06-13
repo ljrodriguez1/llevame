@@ -144,7 +144,7 @@ def agregar_pasajeros(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     pos = user.auto.pasajeros.posibles_pasajeros()
     if len(pos) != 0:
-        update.message.reply_text("a continuacion mostraremos los usuarios que quieren vuelta".format(pos))
+        update.message.reply_text("a continuacion mostraremos los usuarios que quieren vuelta")
         for posible in pos:
             update.message.reply_text("{} {} Quiere ir en tu auto y vive en:".format(posible.name, posible.last_name))
             update.message.bot.send_location(update.message.chat.id, posible.lat, posible.lng)
