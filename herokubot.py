@@ -120,8 +120,8 @@ def accept(update, context):
     reply_keyboard = [["Aceptar"], ["Cancelar Viaje"]]
     opcion = update.message.text
     user = Usuario.objects.get(pk=update.effective_user.id)
+    fecha = update.message.date
     if user.manejo:
-        fecha = update.message.date
         user.quiero_manejar(user.ida, opcion, fecha)
         user.save()
         update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
