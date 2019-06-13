@@ -210,7 +210,8 @@ if __name__ == "__main__":
             SAVEDIRECCION: [MessageHandler(Filters.location, save_direccion),
                             MessageHandler(Filters.all, start)],
 
-            FOOTER: [MessageHandler(Filters.location, footer)],
+            FOOTER: [MessageHandler(Filters.location, footer),
+                    MessageHandler(Filters.all, start)],
 
             ACCEPT: [MessageHandler(Filters.all, accept)],
 
