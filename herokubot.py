@@ -140,6 +140,10 @@ def ver_viaje(update, context):
     
 def eliminar_viaje(update, context):
     reply_keyboard = [["Aceptar"]]
+    user = Usuario.objects.get(pk=update.effective_user.id)
+    user.auto.delete()
+    user.manejo = False
+    user.save()
     update.message.reply_text("Tu viaje fue eliminado",
              reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
     return START
