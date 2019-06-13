@@ -52,10 +52,10 @@ def direccion(update, context):
     reply_keyboard = [["Atras"]]
     user = Usuario.objects.get(pk=update.effective_user.id)
     update.message.reply_text('Esta es tu direccion {}'.format(user.name),
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     update.message.bot.send_location(update.message.chat.id, user.lat, user.lng)
     update.message.reply_text('Si quieres cambiarla envianos otra direccion, si no escribe atras',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return SAVEDIRECCION
 
 
@@ -67,7 +67,7 @@ def save_direccion(update, context):
     user.lng = loc["longitude"]
     user.save()
     update.message.reply_text('Tu direccion fue editada, puedes verla en el menu direccion',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 
@@ -77,7 +77,7 @@ def manejo(update, context):
     user.manejo = True
     user.save()
     update.message.reply_text('Que bueno que te comprometas con el medio ambiente, Porfavor indicanos si es ida o vuelta',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     """
     for user1 in Usuario.objects.all():
         logger.info("llevame %s: nombre %s", user1.llevame, user1.name)
@@ -93,7 +93,7 @@ def llevame(update, context):
     user.manejo = False
     user.save()
     update.message.reply_text('Necesitamos saber si quieres buscas una ida o vuelta',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     """
     for user1 in Usuario.objects.all():
         logger.info("Maneja %s: nombre %s", user1.manejo, user1.name)
@@ -112,7 +112,7 @@ def destino(update, context):
     user.ida = opcion
     user.save()
     update.message.reply_text("¿Elegiste {}, A que hora quieres ir?".format(opcion),
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return ACCEPT
 
 
@@ -125,10 +125,10 @@ def accept(update, context):
         user.quiero_manejar(user.ida, opcion, fecha)
         user.save()
         update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
-            reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
         update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
-            reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+            reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 
@@ -140,14 +140,14 @@ def ver_viaje(update, context):
         try:
             personas = user.auto.personas.all()
             update.message.reply_text("hay {} personas en tu auto \nTu viaje sera {} a las {} de {}".format(str(len(personas)),auto.dia, auto.hora, auto.ida),
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
         except:
             update.message.reply_text("tu auto esta vacio \nTu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else:
         reply_keyboard = [["Editar Viaje", "Eliminar"], ["Atras"]]
         update.message.reply_text("Estamos buscando un viaje para ti",
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 
@@ -161,10 +161,10 @@ def eliminar_viaje(update, context):
     user.save()
     if update.message.text.lower() == "cancelar":
         update.message.reply_text("Cancelaste el Viaje",
-             reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+             reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     else: 
         update.message.reply_text("Tu viaje fue eliminado",
-                reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return START
 
 
@@ -176,7 +176,7 @@ def footer(update, context):
     user.save()
     reply_keyboard = [['Direccion','Llevame'],['Manejo']]
     update.message.reply_text(
-        'Todo Esta listo, ya puedes buscar o ofrecer un viaje o editar tu ubicacion', reply_markup=ReplyKeyboardMarkup(reply_keyboard)
+        'Todo Esta listo, ya puedes buscar o ofrecer un viaje o editar tu ubicacion', reply_markup=ReplyKeyboardMarkup(reply_keyboard))
     return OPCION
 
 
