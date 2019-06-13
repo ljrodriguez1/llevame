@@ -86,8 +86,7 @@ class Usuario(AbstractUser):
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
         distance = R * c
-        print(distance)
-        return distance < 3
+        return distance < 4
     
     def quiero_manejar(self, tramo, hora, dia, capacidad=4):
         try:
@@ -136,14 +135,9 @@ class Pasajeros(models.Model):
         pasajero.save()
     
     def posibles_pasajeros(self):
-        print("----------------------------------------------------------------------------------------------------------------")
         try:
             lista_final = []
-            print("entre al try")
-            print(BuscandoViaje.objects.all())
             for posible in BuscandoViaje.objects.all():
-                print(posible.user, type(posible.user))
-                print(self.auto)
                 if self.auto.conductor.ubicacion_cercana(posible.user):
                     lista_final.append(posible.user)
             return lista_final

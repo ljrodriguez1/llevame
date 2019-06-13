@@ -18,6 +18,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
                           ConversationHandler)
 
 from users.models import Usuario, Auto
+from keyboards import add_user
 DESTINO, ACCEPT, FOOTER, OPCION, SAVEDIRECCION, START, VER_VIAJE = range(7)
 
 
@@ -144,10 +145,18 @@ def agregar_pasajeros(update, context):
     user = Usuario.objects.get(pk=update.effective_user.id)
     pos = user.auto.pasajeros.posibles_pasajeros()
     if len(pos) != 0:
-        update.message.reply_text("a continuacion mostraremos los usuarios que quieren vuelta")
+        update.message.reply_text("a continuacion mostraremos los usuarios que quieren subirse a tu auto")
+        contador = 1
         for posible in pos:
-            update.message.reply_text("{} {} Quiere ir en tu auto y vive en:".format(posible.name, posible.last_name))
+            update.message.reply_text("{}) {} {}  vive en:".format(contador, posible.name, posible.last_name))
             update.message.bot.send_location(update.message.chat.id, posible.lat, posible.lng)
+            if contador == 4:
+                break
+            contador += 1
+        reply_keyboard = add_user[contador]
+        update.message.reply_text("Para subir a usuario apreta su numero",
+                reply_markup=ReplyKeyboardMarkup(reply_keyboard))
+
     
     else:
         reply_keyboard = [["Atras"]]
