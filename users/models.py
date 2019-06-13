@@ -91,14 +91,14 @@ class Usuario(AbstractUser):
     def quiero_manejar(self, tramo, hora, dia, capacidad=4):
         auto = Auto(conductor=self, capacidad=capacidad, hora=hora, ida=tramo, dia=dia)
         auto.save()
-        self.auto = auto
+        
     
     
 class Auto(models.Model):
     conductor = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     capacidad = models.IntegerField(default=4)
     hora = models.CharField(max_length=6)
-    ida = models.BooleanField(default=False)
+    ida = models.CharField(max_length=10)
     dia = models.DateField()
 
     def tengo_capacidad(self):

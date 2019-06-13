@@ -118,7 +118,7 @@ def accept(update, context):
     if user.manejo:
         user.quiero_manejar(user.ida, opcion, "hoy")
         user.save()
-        update.message.reply_text("Tu viaje sera {} a las {} de {}".format(auto.dia, auto.hora, auto.ida),
+        update.message.reply_text("Tu viaje sera {} a las {} de {}".format(user.auto.dia, user.auto.hora, user.auto.ida),
             reply_markup=ReplyKeyboardRemove())
     else:
         update.message.reply_text("Estamos buscando un viaje para ti a las {}".format(opcion),
